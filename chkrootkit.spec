@@ -23,6 +23,7 @@ Source0:	ftp://sunsite.icm.edu.pl/pub/unix/security/chkrootkit/%{name}-%{version
 Patch0:		%{name}-CC.patch
 Patch1:		%{name}-nostrip.patch
 Patch2:		%{name}-names.patch.gz
+Patch3:		%{name}-wtmp.patch
 URL:		http://www.chkrootkit.org/
 BuildRequires:	glibc-static
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -58,6 +59,7 @@ rootkitów.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %build
 CC=%{__cc}

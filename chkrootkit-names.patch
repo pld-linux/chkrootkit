@@ -1,7 +1,7 @@
-diff -Nur chkrootkit-0.43.orig/chkrootkit chkrootkit-0.43/chkrootkit
---- chkrootkit-0.43.orig/chkrootkit	2003-12-28 17:48:16.000000000 +0100
-+++ chkrootkit-0.43/chkrootkit	2003-12-30 09:09:25.887663096 +0100
-@@ -151,20 +151,20 @@
+diff -Nur chkrootkit-0.44.orig/chkrootkit chkrootkit-0.44/chkrootkit
+--- chkrootkit-0.44.orig/chkrootkit	2004-09-01 13:27:28.000000000 +0000
++++ chkrootkit-0.44/chkrootkit	2004-09-01 16:50:34.000000000 +0000
+@@ -149,20 +149,20 @@
      fi
  
      if [ "${EXPERT}" = "t" ]; then
@@ -28,7 +28,7 @@ diff -Nur chkrootkit-0.43.orig/chkrootkit chkrootkit-0.43/chkrootkit
        return ${NOT_TESTED}
      fi
  
-@@ -178,32 +178,32 @@
+@@ -176,32 +176,32 @@
      fi
  
      if [ "${EXPERT}" = "t" ]; then
@@ -63,13 +63,13 @@ diff -Nur chkrootkit-0.43.orig/chkrootkit chkrootkit-0.43/chkrootkit
 +             expertmode_output "/usr/bin/chkrootkit-check_wtmpx"
                return 5
            fi
- 	  if [ -f ${ROOTDIR}var/adm/wtmp ]; then 
+ 	  if [ -f ${ROOTDIR}var/adm/wtmp ]; then
 -             if ./check_wtmpx
 +             if /usr/bin/chkrootkit-check_wtmpx
                  then
                  if [ "${QUIET}" != "t" ]; then \
                     echo "nothing deleted in /var/adm/wtmpx"; fi
-@@ -214,12 +214,12 @@
+@@ -212,12 +212,12 @@
         WTMP=`loc wtmp wtmp "${ROOTDIR}var/log ${ROOTDIR}var/adm"`
  
         if [ "${EXPERT}" = "t" ]; then
@@ -84,85 +84,55 @@ diff -Nur chkrootkit-0.43.orig/chkrootkit chkrootkit-0.43/chkrootkit
      then
        if [ "${QUIET}" != "t" ]; then echo "nothing deleted"; fi
      fi
-@@ -258,8 +258,8 @@
+@@ -256,8 +256,8 @@
      prog=""
      if [  \( "${SYSTEM}" = "Linux"  -o \( "${SYSTEM}" = "FreeBSD" -a \
-        ${V} -gt 43 \) \) -a "${ROOTDIR}" = "/" ]; then
+        `echo ${V} | ${awk} '{ if ($1 > 4.3) print 1; else print 0 }'` -eq 1 \) \) -a "${ROOTDIR}" = "/" ]; then
 -      [ ! -x ./chkproc ] && prog="./chkproc"
 -      [ ! -x ./chkdirs ] && prog="$prog ./chkdirs"
-+      [ ! -x /usr/bin/chkrootkit-chkproc ] && prog="/usr/bin/chkrootkit-chkproc"
-+      [ ! -x /usr/bin/chkrootkit-chkdirs ] && prog="$prog /usr/bin/chkrootkit-chkdirs"
++      [ ! -x /usr/bin/chkproc ] && prog="/usr/bin/chkrootkit-chkproc"
++      [ ! -x /usr/bin/chkdirs ] && prog="$prog /usr/bin/chkrootkit-chkdirs"
        if [ "$prog" != "" ]; then
  #        echo "not tested: can't exec $prog"
          return ${NOT_TESTED}
-@@ -268,7 +268,7 @@
-       if [ "${EXPERT}" = "t" ]; then
-          [ -r /proc/ksyms ] &&  ${egrep} -i "adore|sebek" < /proc/ksyms 2>/dev/null
-          [ -d /proc/knark ] &&  ${ls} -la /proc/knark 2> /dev/null
--          expertmode_output "./chkproc -v -v"
-+          expertmode_output "/usr/bin/chkrootkit-chkproc -v -v"
-           return 5
+@@ -269,7 +269,7 @@
+          PV=`$ps -V 2>/dev/null| $cut -d " " -f 3 |$awk -F . '{ print $1 "." $2 $3 }' | ${awk} '{ if ($0 > 3.19) print 2; else print 1 }'`
+          [ "$PV" = "" ] &&  PV=1
+          [ "${SYSTEM}" = "SunOS" ] && PV=0
+-         expertmode_output "./chkproc -v -v -p $PV"
++         expertmode_output "/usr/bin/chkrootkit-chkproc -v -v -p $PV"
+          return 5
        fi
  
-@@ -289,7 +289,7 @@
-          echo "Warning: Knark LKM installed"
+@@ -295,7 +295,7 @@
+       if [ "${DEBUG}" = "t" ]; then
+            ${echo} "*** $PV ***"
        fi
- 
--      if ./chkproc
-+      if /usr/bin/chkrootkit-chkproc
+-      if ./chkproc -p ${PV}
++      if /usr/bin/chkrootkit-chkproc -p ${PV}
        then
             if [ "${QUIET}" != "t" ]; then echo "nothing detected"; fi
        else
-@@ -1505,18 +1505,18 @@
+@@ -1534,18 +1534,18 @@
  
     if [ "${SYSTEM}" = "Linux" ]
     then
 -      if [ ! -x ./strings-static ]; then
 -        printn "can't exec ./strings-static, "
-+      if [ ! -x /usr/bin/chkrootkit-strings ]; then
-+        printn "can't exec /usr/bin/chkrootkit-strings, "
++      if [ ! -x /usr/bin/chkrootkit-strings-static ]; then
++        printn "can't exec /usr/bin/chkrootkit-strings-static, "
          return ${NOT_TESTED}
        fi
  
        if [ "${EXPERT}" = "t" ]; then
--          expertmode_output "./strings -a ${CMD}"
-+          expertmode_output "/usr/bin/chkrootkit-strings -a ${CMD}"
+-          expertmode_output "./strings-static -a ${CMD}"
++          expertmode_output "/usr/bin/chkrootkit-strings-static -a ${CMD}"
            return 5
        fi
  
        ### strings must be a statically linked binary.
 -      if ./strings-static -a ${CMD} > /dev/null 2>&1
-+      if /usr/bin/chkrootkit-strings -a ${CMD} > /dev/null 2>&1
++      if /usr/bin/chkrootkit-strings-static -a ${CMD} > /dev/null 2>&1
        then
           STATUS=${INFECTED}
        fi
-diff -Nur chkrootkit-0.43.orig/Makefile chkrootkit-0.43/Makefile
---- chkrootkit-0.43.orig/Makefile	2003-12-30 09:08:57.815930648 +0100
-+++ chkrootkit-0.43/Makefile	2003-12-30 09:09:59.581540848 +0100
-@@ -25,13 +25,13 @@
- 
- SRCS   = chklastlog.c chkwtmp.c ifpromisc.c chkproc.c chkdirs.c check_wtmpx.c strings.c
- 
--OBJS   = chklastlog.o chkwtmp.o ifpromisc.o chkproc.o chkdirs.o check_wtmpx.o strings-static.o
-+OBJS   = chklastlog.o chkwtmp.o ifpromisc.o chkproc.o chkdirs.o check_wtmpx.o strings.o
- 
- all:
- 	@echo '*** stopping make sense ***'
- 	@exec make sense
- 
--sense: chklastlog chkwtmp ifpromisc chkproc chkdirs check_wtmpx strings-static
-+sense: chklastlog chkwtmp ifpromisc chkproc chkdirs check_wtmpx strings
- 
- chklastlog:   chklastlog.c
- 	${CC} ${CFLAGS} -o $@ chklastlog.c
-@@ -51,8 +51,8 @@
- check_wtmpx:   check_wtmpx.c
- 	${CC} ${LDFLAGS} -o $@ check_wtmpx.c
- 
--strings-static:   strings.c
-+strings:   strings.c
- 	${CC} ${STATIC} ${LDFLAGS} -o $@ strings.c
- 
- clean:
--	rm -f ${OBJS} core chklastlog chkwtmp ifpromisc chkproc chkdirs check_wtmpx strings-static
-+	rm -f ${OBJS} core chklastlog chkwtmp ifpromisc chkproc chkdirs check_wtmpx strings

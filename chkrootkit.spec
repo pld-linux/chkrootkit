@@ -3,7 +3,7 @@ Summary(pl):	chkrootkit - narzêdzie do lokalnego szukania oznak rootkitów
 Name:		chkrootkit
 Version:	0.37
 Release:	1
-License:	Copyrighted
+License:	AMS (BSD like; look at COPYRIGHT)
 Group:		Applications/Networking
 Source0:	ftp://sunsite.icm.edu.pl/pub/unix/security/chkrootkit/%{name}-%{version}.tar.gz
 Source1:	%{name}-check
@@ -60,7 +60,7 @@ rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_bindir},/etc/{sysconfig,cron.weekly}}
 
 for x in check_wtmpx chklastlog chkproc chkwtmp ifpromisc strings; do
-    install $x $RPM_BUILD_ROOT/%{_bindir}/%{name}-$x
+	install check_wtmpx chklastlog chkproc chkwtmp ifpromisc strings $RPM_BUILD_ROOT/%{_bindir}/%{name}-$x
 done
 
 install chkrootkit $RPM_BUILD_ROOT/%{_bindir}
@@ -69,11 +69,11 @@ install %{SOURCE1}	$RPM_BUILD_ROOT/etc/cron.weekly/
 install %{SOURCE2}	$RPM_BUILD_ROOT/etc/sysconfig/chkrootkit
 
 %clean
-#rm -rf $RPM_BUILD_ROOT
+rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
 %doc COPYRIGHT README README.chklastlog README.chkwtmp
-%attr(755,root,root) %{_bindir}/*
 %attr(750,root,root) /etc/cron.weekly/chkrootkit-check
 %attr(640,root,root) %config(noreplace) %verify(not mtime size md5) /etc/sysconfig/chkrootkit
+%attr(755,root,root) %{_bindir}/*

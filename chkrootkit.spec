@@ -20,7 +20,10 @@ Group(ru):	“…Ãœ÷≈Œ…—/Û≈‘≈◊Ÿ≈
 Group(sl):	Programi/Omreæni
 Group(sv):	Till‰mpningar/N‰tverk
 Source0:	ftp://sunsite.icm.edu.pl/pub/unix/security/chkrootkit/%{name}-%{version}.tar.gz
+Patch0:		%{name}-CC.patch
+Patch1:		%{name}-nostrip.patch
 URL:		http://www.chkrootkit.org/
+BuildRequires:	glibc-static
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -51,21 +54,30 @@ rootkitÛw.
 
 %prep
 %setup -q
+%patch0 -p1
+%patch1 -p1
+
 
 %build
+CC=%{__cc}
+export CC
 %{__make} sense
+
 
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{_bindir}
 
-install check_wtmpx chklastlog chkproc chkrootkit chkwtmp ifpromisc \
-	strings $RPM_BUILD_ROOT%{_bindir}
+for x in check_wtmpx chklastlog chkproc chkrootkit chkwtmp ifpromisc strings; do
+    install $x $RPM_BUILD_ROOT/%{_bindir}/%{name}-$x
+done
 
 gzip -9nf COPYRIGHT README README.chklastlog README.chkwtmp
 
+
 %clean
 rm -rf $RPM_BUILD_ROOT
+
 
 %files
 %defattr(644,root,root,755)

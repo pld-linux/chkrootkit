@@ -22,6 +22,7 @@ Group(sv):	Tillämpningar/Nätverk
 Source0:	ftp://sunsite.icm.edu.pl/pub/unix/security/chkrootkit/%{name}-%{version}.tar.gz
 Patch0:		%{name}-CC.patch
 Patch1:		%{name}-nostrip.patch
+Patch2:		%{name}-names.patch.gz
 URL:		http://www.chkrootkit.org/
 BuildRequires:	glibc-static
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -56,6 +57,7 @@ rootkitów.
 %setup -q
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 
 %build
@@ -68,9 +70,11 @@ export CC
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{_bindir}
 
-for x in check_wtmpx chklastlog chkproc chkrootkit chkwtmp ifpromisc strings; do
+for x in check_wtmpx chklastlog chkproc chkwtmp ifpromisc strings; do
     install $x $RPM_BUILD_ROOT/%{_bindir}/%{name}-$x
 done
+
+install chkrootkit $RPM_BUILD_ROOT/%{_bindir}
 
 gzip -9nf COPYRIGHT README README.chklastlog README.chkwtmp
 

@@ -1,5 +1,5 @@
 Summary:	chkrootkit - locally checks for signs of a rootkit
-Summary(pl):	chkrootkit - szuka lokalnie oznak rootkit'ów
+Summary(pl):	chkrootkit - narzêdzie do lokalnego szukania oznak rootkitów
 Name:		chkrootkit
 Version:	0.35
 Release:	1
@@ -36,17 +36,17 @@ Chkrootkit is a toolkit to locally check for signs of a rootkit.
  - strings: quick and dirty strings replacement.
 
 %description -l pl
-Chkrootkit to zespó³ narzêdzi do lokalnego sprawdzania oznak u¿ycia
+Chkrootkit to zestaw narzêdzi do lokalnego sprawdzania oznak u¿ycia
 rootkitów.
- - chkrootkit: skrypt bash sprawdzaj±cy binarne pliki systemowe na
-   obecno¶æ modyfikacji typowych dla rootkitów. (Je¶li nie mo¿na zaufaæ
+ - chkrootkit: skrypt pow³oki sprawdzaj±cy binarne pliki systemowe na
+   obecno¶æ modyfikacji typowych dla rootkitów (je¶li nie mo¿na zaufaæ
    rpm -Va)
  - ifpromisc: sprawdza czy interfejs sieciowy jest w trybie promiscuous
    (gdy nie mo¿na zaufaæ netstat)
- - chklastlog: sprawdza czy logi nie by³y kasowane.
- - chkwtmp: sprawdza kasowanie wtmpx.
- - check_wtmpx: sprawdza kasowanie w wtmpx deletions. (tylko Solaris)
- - chkproc: szuka oznak trojanów LKM. (modu³y j±dra)
+ - chklastlog: sprawdza czy logi nie by³y kasowane
+ - chkwtmp: sprawdza kasowanie wtmpx
+ - check_wtmpx: sprawdza kasowanie w wtmpx deletions (tylko Solaris)
+ - chkproc: szuka oznak trojanów LKM (modu³y j±dra)
  - strings: szybkie i brzydkie podmiany ci±gów znaków.
 
 %prep
@@ -57,7 +57,7 @@ rootkitów.
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT/%{_bindir}
+install -d $RPM_BUILD_ROOT%{_bindir}
 
 install check_wtmpx chklastlog chkproc chkrootkit chkwtmp ifpromisc \
 	strings $RPM_BUILD_ROOT%{_bindir}

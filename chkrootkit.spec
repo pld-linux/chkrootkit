@@ -19,7 +19,7 @@ Group(pt_BR):	Aplicações/Rede
 Group(ru):	ğÒÉÌÏÖÅÎÉÑ/óÅÔÅ×ÙÅ
 Group(sl):	Programi/Omre¾ni
 Group(sv):	Tillämpningar/Nätverk
-Source0:	ftp://ftp://sunsite.icm.edu.pl/pub/unix/security/chkrootkit/%{name}-%{version}.tar.gz
+Source0:	ftp://sunsite.icm.edu.pl/pub/unix/security/chkrootkit/%{name}-%{version}.tar.gz
 URL:		http://www.chkrootkit.org/
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 

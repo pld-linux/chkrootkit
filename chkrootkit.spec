@@ -22,7 +22,7 @@ Group(sv):	Tillämpningar/Nätverk
 Source0:	ftp://sunsite.icm.edu.pl/pub/unix/security/chkrootkit/%{name}-%{version}.tar.gz
 Patch0:		%{name}-CC.patch
 Patch1:		%{name}-nostrip.patch
-Patch2:		%{name}-names.patch.gz
+Patch2:		%{name}-names.patch
 Patch3:		%{name}-wtmp.patch
 URL:		http://www.chkrootkit.org/
 BuildRequires:	glibc-static

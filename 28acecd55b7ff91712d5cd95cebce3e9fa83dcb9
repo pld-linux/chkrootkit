@@ -1,0 +1,3 @@
+- created this spec and adapterized.
+- one of binaries must be linked statically (because of security reasons).
+- does rpm strip binaries by itself ?

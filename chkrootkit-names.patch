@@ -1,6 +1,6 @@
-diff -burN chkrootkit-0.42.orig/chkrootkit chkrootkit-0.42/chkrootkit
---- chkrootkit-0.42.orig/chkrootkit	2003-09-15 09:05:41.342646240 +0200
-+++ chkrootkit-0.42/chkrootkit	2003-09-15 09:11:40.081109704 +0200
+diff -burN chkrootkit-0.42b.orig/chkrootkit chkrootkit-0.42b/chkrootkit
+--- chkrootkit-0.42b.orig/chkrootkit	2003-09-22 22:57:30.383435144 +0200
++++ chkrootkit-0.42b/chkrootkit	2003-09-22 23:07:24.364136352 +0200
 @@ -151,15 +151,15 @@
      fi
  
@@ -19,7 +19,7 @@ diff -burN chkrootkit-0.42.orig/chkrootkit chkrootkit-0.42/chkrootkit
 -       [ "${QUIET}" != "t" ] && ./ifpromisc || ./ifpromisc -q
 +       [ "${QUIET}" != "t" ] && /usr/bin/chkrootkit-ifpromisc || /usr/bin/chkrootkit-ifpromisc -q
      else
-        if [ `${egrep} -cv "sk" ${ROOTDIR}proc/net/packet 2>/dev/null` -gt 0 ]; then
+        if [ `${egrep} -c "3    0003" ${ROOTDIR}proc/net/packet 2>/dev/null` -gt 0 ]; then
  	       set `${egrep} ":" $ROOTDIR/proc/net/dev | ${egrep} -v "lo:" | cut -f 1 -d:`
 @@ -174,8 +174,8 @@
  }
@@ -134,8 +134,8 @@ diff -burN chkrootkit-0.42.orig/chkrootkit chkrootkit-0.42/chkrootkit
        fi
  
        ### strings must be a statically linked binary.
--      if ./strings-static -a ${CMD} > /dev/null 2>&1
-+      if /usr/bin/chkrootkit-strings-static -a ${CMD} > /dev/null 2>&1
+-      if ./strings -a ${CMD} > /dev/null 2>&1
++      if /usr/bin/chkrootkit-strings -a ${CMD} > /dev/null 2>&1
        then
           STATUS=${INFECTED}
        fi

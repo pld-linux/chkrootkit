@@ -15,8 +15,8 @@ Patch2:		%{name}-names.patch
 Patch3:		%{name}-wtmp.patch
 URL:		http://www.chkrootkit.org/
 BuildRequires:	glibc-static
-BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Requires:	binutils
+BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
 Chkrootkit is a toolkit to locally check for signs of a rootkit.
@@ -45,7 +45,7 @@ rootkitów.
  - strings: szybko i brzydko napisany zamiennik programu strings.
 
 %prep
-%setup -q -n %{name}-%{version}
+%setup -q
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1

@@ -6,6 +6,7 @@
 DATA=`date`
 SYSTEM=`hostname`
 
+cd /usr/bin/
 /usr/bin/chkrootkit | /bin/egrep -v '(not (infected|found|promisc)|nothing (found|detected|deleted)|no suspect files|ROOTDIR is)' > /var/tmp/$$
 LIN=`grep -c . /var/tmp/$$`
 if [ "$LIN" -gt "1" ]; then

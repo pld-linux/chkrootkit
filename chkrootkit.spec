@@ -35,7 +35,8 @@ Chkrootkit is a toolkit to locally check for signs of a rootkit.
  - chkproc: checks for signs of LKM trojans. (kernel modules)
  - strings: quick and dirty strings replacement.
 
-Packages is litle outdated, please use rkhunter or similar.
+This package is a little outdated, please use rkhunter or similar for
+better results.
 
 %description -l pl
 Chkrootkit to zestaw narzêdzi do lokalnego sprawdzania oznak u¿ycia
@@ -51,7 +52,7 @@ rootkitów.
  - chkproc: szuka oznak trojanów LKM (modu³y j±dra)
  - strings: szybko i brzydko napisany zamiennik programu strings.
 
-Pakiet ten jest przestarza³y, prosze u¿yæ rkhunter lub podobnego.
+Pakiet ten jest przestarza³y, lepiej u¿ywaæ rkhunter lub podobnego.
 
 %prep
 %setup -q
@@ -63,7 +64,7 @@ Pakiet ten jest przestarza³y, prosze u¿yæ rkhunter lub podobnego.
 #%patch5 -p0
 
 %build
-CC=%{__cc}
+CC="%{__cc}"
 export CC
 %{__make} sense
 

@@ -1,37 +1,35 @@
-diff -Nru chkrootkit-0.35/Makefile chkrootkit-0.35-new/Makefile
---- chkrootkit-0.35/Makefile	Fri Jan 18 18:06:09 2002
-+++ chkrootkit-0.35-new/Makefile	Tue Feb 12 22:55:46 2002
-@@ -29,27 +29,27 @@
+diff -Naur chkrootkit-0.38/Makefile chkrootkit-0.38-p/Makefile
+--- chkrootkit-0.38/Makefile	Sat Jan  4 10:04:15 2003
++++ chkrootkit-0.38-p/Makefile	Sat Jan  4 10:08:33 2003
+@@ -35,31 +35,24 @@
  
  chklastlog:   chklastlog.c
  	${CC} ${CFLAGS} -o $@ chklastlog.c
 -	@strip $@
-+
  
  chkwtmp:   chkwtmp.c
  	${CC} ${CFLAGS} -o $@ chkwtmp.c
 -	@strip $@
-+
  
  ifpromisc:   ifpromisc.c
  	${CC} ${CFLAGS} ${LDFLAGS} -o $@ ifpromisc.c
 -	@strip $@
-+
  
  chkproc:   chkproc.c
  	${CC} ${LDFLAGS} -o $@ chkproc.c
 -	@strip $@
-+
+ 
+ chkdirs:   chkdirs.c
+ 	${CC} ${LDFLAGS} -o $@ chkdirs.c
+-	@strip $@
  
  check_wtmpx:   check_wtmpx.c
  	${CC} ${LDFLAGS} -o $@ check_wtmpx.c
 -	@strip $@
-+
  
  strings:   strings.c
  	${CC} ${STATIC} ${LDFLAGS} -o $@ strings.c
 -	@strip $@
-+
  
  clean:
- 	rm -f ${OBJS} core chklastlog chkwtmp ifpromisc chkproc check_wtmpx strings
+ 	rm -f ${OBJS} core chklastlog chkwtmp ifpromisc chkproc chkdirs check_wtmpx strings

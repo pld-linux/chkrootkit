@@ -15,6 +15,7 @@ Patch3:		%{name}-wtmp.patch
 URL:		http://www.chkrootkit.org/
 BuildRequires:	glibc-static
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+Requires:	binutils
 
 %description
 Chkrootkit is a toolkit to locally check for signs of a rootkit.

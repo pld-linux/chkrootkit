@@ -49,7 +49,6 @@ rootkitów.
  - chkproc: szuka oznak trojanów LKM. (modu³y j±dra)
  - strings: szybkie i brzydkie podmiany ci±gów znaków.
 
-
 %prep
 %setup -q
 
@@ -59,7 +58,10 @@ rootkitów.
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT/%{_bindir}
-install {check_wtmpx,chklastlog,chkproc,chkrootkit,chkwtmp,ifpromisc,strings} $RPM_BUILD_ROOT/%{_bindir}
+
+install check_wtmpx chklastlog chkproc chkrootkit chkwtmp ifpromisc \
+	strings $RPM_BUILD_ROOT%{_bindir}
+
 gzip -9nf COPYRIGHT README README.chklastlog README.chkwtmp
 
 %clean

@@ -1,15 +1,7 @@
-diff -burN chkrootkit-0.41-orig/chkrootkit chkrootkit-0.41/chkrootkit
---- chkrootkit-0.41-orig/chkrootkit	Sat Jun 21 04:09:09 2003
-+++ chkrootkit-0.41/chkrootkit	Tue Jul 22 12:17:07 2003
-@@ -150,22 +150,22 @@
-        return ${NOT_TESTED}
-     fi
- 
--    if [ ! -x ./ifpromisc ]; then
--      echo "not tested: can't exec ./ifpromisc"
-+    if [ ! -x /usr/bin/chkrootkit-ifpromisc ]; then
-+      echo "not tested: can't exec /usr/bin/chkrootkit-ifpromisc"
-       return ${NOT_TESTED}
+diff -burN chkrootkit-0.42.orig/chkrootkit chkrootkit-0.42/chkrootkit
+--- chkrootkit-0.42.orig/chkrootkit	2003-09-15 09:05:41.342646240 +0200
++++ chkrootkit-0.42/chkrootkit	2003-09-15 09:11:40.081109704 +0200
+@@ -151,15 +151,15 @@
      fi
  
      if [ "${EXPERT}" = "t" ]; then
@@ -17,9 +9,19 @@ diff -burN chkrootkit-0.41-orig/chkrootkit chkrootkit-0.41/chkrootkit
 +        expertmode_output "/usr/bin/chkrootkit-ifpromisc"
          return 5
      fi
-     echo
--    [ "${QUIET}" != "t" ] && ./ifpromisc || ./ifpromisc -q
-+    [ "${QUIET}" != "t" ] && /usr/bin/chkrootkit-ifpromisc || /usr/bin/chkrootkit-ifpromisc -q
+     if [ ! -f ${ROOTDIR}proc/net/packet ]; then
+-       if [ ! -x ./ifpromisc ]; then
+-         echo "not tested: can't exec ./ifpromisc"
++       if [ ! -x /usr/bin/chkrootkit-ifpromisc ]; then
++         echo "not tested: can't exec /usr/bin/chkrootkit-ifpromisc"
+          return ${NOT_TESTED}
+        fi
+-       [ "${QUIET}" != "t" ] && ./ifpromisc || ./ifpromisc -q
++       [ "${QUIET}" != "t" ] && /usr/bin/chkrootkit-ifpromisc || /usr/bin/chkrootkit-ifpromisc -q
+     else
+        if [ `${egrep} -cv "sk" ${ROOTDIR}proc/net/packet 2>/dev/null` -gt 0 ]; then
+ 	       set `${egrep} ":" $ROOTDIR/proc/net/dev | ${egrep} -v "lo:" | cut -f 1 -d:`
+@@ -174,8 +174,8 @@
  }
  
  z2 () {
@@ -30,7 +32,7 @@ diff -burN chkrootkit-0.41-orig/chkrootkit chkrootkit-0.41/chkrootkit
        return ${NOT_TESTED}
      fi
  
-@@ -173,31 +173,31 @@
+@@ -183,31 +183,31 @@
      LASTLOG=`loc lastlog lastlog "${ROOTDIR}var/log ${ROOTDIR}var/adm"`
  
      if [ "${EXPERT}" = "t" ]; then
@@ -70,7 +72,7 @@ diff -burN chkrootkit-0.41-orig/chkrootkit chkrootkit-0.41/chkrootkit
               then
               if [ "${QUIET}" != "t" ]; then \
                  echo "nothing deleted in /var/adm/wtmpx"; fi
-@@ -207,12 +207,12 @@
+@@ -217,12 +217,12 @@
         WTMP=`loc wtmp wtmp "${ROOTDIR}var/log ${ROOTDIR}var/adm"`
  
         if [ "${EXPERT}" = "t" ]; then
@@ -85,7 +87,7 @@ diff -burN chkrootkit-0.41-orig/chkrootkit chkrootkit-0.41/chkrootkit
      then
        if [ "${QUIET}" != "t" ]; then echo "nothing deleted"; fi
      fi
-@@ -251,8 +251,8 @@
+@@ -261,8 +261,8 @@
      prog=""
      if [  \( "${SYSTEM}" = "Linux"  -o \( "${SYSTEM}" = "FreeBSD" -a \
         ${V} -gt 43 \) \) -a "${ROOTDIR}" = "/" ]; then
@@ -96,7 +98,7 @@ diff -burN chkrootkit-0.41-orig/chkrootkit chkrootkit-0.41/chkrootkit
        if [ "$prog" != "" ]; then
  #        echo "not tested: can't exec $prog"
          return ${NOT_TESTED}
-@@ -261,7 +261,7 @@
+@@ -271,7 +271,7 @@
        if [ "${EXPERT}" = "t" ]; then
           [ -r /proc/ksyms ] &&  ${egrep} -i "adore|sebek" < /proc/ksyms 2>/dev/null
           [ -d /proc/knark ] &&  ${ls} -la /proc/knark 2> /dev/null
@@ -105,7 +107,7 @@ diff -burN chkrootkit-0.41-orig/chkrootkit chkrootkit-0.41/chkrootkit
            return 5
        fi
  
-@@ -282,7 +282,7 @@
+@@ -292,7 +292,7 @@
           echo "Warning: Knark LKM installed"
        fi
  
@@ -114,7 +116,7 @@ diff -burN chkrootkit-0.41-orig/chkrootkit chkrootkit-0.41/chkrootkit
        then
             if [ "${QUIET}" != "t" ]; then echo "nothing detected"; fi
        else
-@@ -1443,18 +1443,18 @@
+@@ -1463,18 +1463,18 @@
  
     if [ "${SYSTEM}" = "Linux" ]
     then

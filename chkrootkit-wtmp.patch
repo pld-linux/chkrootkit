@@ -1,6 +1,7 @@
---- ./chkrootkit.org	Wed Feb 13 12:58:05 2002
-+++ ./chkrootkit	Wed Feb 13 12:58:45 2002
-@@ -105,7 +105,7 @@
+diff -Nur chkrootkit-0.39a.orig/chkrootkit chkrootkit-0.39a/chkrootkit
+--- chkrootkit-0.39a.orig/chkrootkit	Thu Jan 30 23:45:57 2003
++++ chkrootkit-0.39a/chkrootkit	Sat Feb  8 16:51:03 2003
+@@ -149,7 +149,7 @@
        return ${NOT_TESTED}
      fi
  
@@ -9,12 +10,12 @@
      LASTLOG=`loc lastlog lastlog "${ROOTDIR}var/log ${ROOTDIR}var/adm"`
  
      if [ "${EXPERT}" = "t" ]; then
-@@ -141,7 +141,7 @@
+@@ -184,7 +184,7 @@
+           fi
         fi
-     fi
+    else
+-       WTMP=`loc wtmp wtmp "${ROOTDIR}var/log ${ROOTDIR}var/adm"`
++       WTMP=`loc wtmpx wtmpx "${ROOTDIR}var/log ${ROOTDIR}var/adm"`
  
--    WTMP=`loc wtmp wtmp "${ROOTDIR}var/log ${ROOTDIR}var/adm"`
-+    WTMP=`loc wtmpx wtmpx "${ROOTDIR}var/log ${ROOTDIR}var/adm"`
- 
-     if [ "${EXPERT}" = "t" ]; then
-         expertmode_output "./chkrootkit-chkwtmp -f ${WTMP}"
+        if [ "${EXPERT}" = "t" ]; then
+           expertmode_output "./chkwtmp -f ${WTMP}"

@@ -1,0 +1,12 @@
+diff -Nru chkrootkit-0.35/Makefile chkrootkit-0.35-new/Makefile
+--- chkrootkit-0.35/Makefile	Fri Jan 18 18:06:09 2002
++++ chkrootkit-0.35-new/Makefile	Tue Feb 12 22:43:10 2002
+@@ -2,7 +2,7 @@
+ # Makefile for Chkrootkit (C), Pangeia Informatica
+ # $Id$
+ #
+-CC       = gcc
++
+ CFLAGS	 = -DHAVE_LASTLOG_H  
+ STATIC   = -static
+ #CFLAGS += -Wall

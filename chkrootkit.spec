@@ -61,12 +61,12 @@ rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_bindir},/etc/{sysconfig,cron.weekly}}
 
 for x in check_wtmpx chkdirs chklastlog chkproc chkwtmp ifpromisc strings; do
-	install $x $RPM_BUILD_ROOT/%{_bindir}/%{name}-$x
+	install $x $RPM_BUILD_ROOT%{_bindir}/%{name}-$x
 done
 
-install chkrootkit $RPM_BUILD_ROOT/%{_bindir}
+install chkrootkit $RPM_BUILD_ROOT%{_bindir}
 
-install %{SOURCE1}	$RPM_BUILD_ROOT/etc/cron.weekly/
+install %{SOURCE1}	$RPM_BUILD_ROOT/etc/cron.weekly
 install %{SOURCE2}	$RPM_BUILD_ROOT/etc/sysconfig/chkrootkit
 
 %clean

@@ -2,7 +2,7 @@ Summary:	chkrootkit - locally checks for signs of a rootkit
 Summary(pl):	chkrootkit - narzêdzie do lokalnego szukania oznak rootkitów
 Name:		chkrootkit
 Version:	0.41
-Release:	1
+Release:	2
 License:	AMS (BSD like; look at COPYRIGHT)
 Group:		Applications/Networking
 Source0:	ftp://sunsite.icm.edu.pl/pub/unix/security/chkrootkit/%{name}-%{version}.tar.gz
@@ -13,9 +13,11 @@ Patch0:		%{name}-CC.patch
 Patch1:		%{name}-nostrip.patch
 Patch2:		%{name}-names.patch
 Patch3:		%{name}-wtmp.patch
+Patch4:		%{name}-usebash.patch
 URL:		http://www.chkrootkit.org/
 BuildRequires:	glibc-static
 Requires:	binutils
+Requires:	bash
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -50,6 +52,7 @@ rootkitów.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 %build
 CC=%{__cc}

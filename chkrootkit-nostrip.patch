@@ -1,6 +1,6 @@
-diff -Naur chkrootkit-0.38/Makefile chkrootkit-0.38-p/Makefile
---- chkrootkit-0.38/Makefile	Sat Jan  4 10:04:15 2003
-+++ chkrootkit-0.38-p/Makefile	Sat Jan  4 10:08:33 2003
+diff -Nur chkrootkit-0.43.orig/Makefile chkrootkit-0.43/Makefile
+--- chkrootkit-0.43.orig/Makefile	2003-12-26 22:34:10.000000000 +0100
++++ chkrootkit-0.43/Makefile	2003-12-30 08:45:32.080634896 +0100
 @@ -35,31 +35,24 @@
  
  chklastlog:   chklastlog.c
@@ -27,9 +27,9 @@ diff -Naur chkrootkit-0.38/Makefile chkrootkit-0.38-p/Makefile
  	${CC} ${LDFLAGS} -o $@ check_wtmpx.c
 -	@strip $@
  
- strings:   strings.c
+ strings-static:   strings.c
  	${CC} ${STATIC} ${LDFLAGS} -o $@ strings.c
 -	@strip $@
  
  clean:
- 	rm -f ${OBJS} core chklastlog chkwtmp ifpromisc chkproc chkdirs check_wtmpx strings
+ 	rm -f ${OBJS} core chklastlog chkwtmp ifpromisc chkproc chkdirs check_wtmpx strings-static

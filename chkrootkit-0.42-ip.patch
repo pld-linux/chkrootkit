@@ -1,0 +1,51 @@
+--- chkrootkit	Fri Sep 12 14:47:14 2003
++++ chkrootkit	Mon Sep 15 18:29:16 2003
+@@ -25,7 +25,7 @@
+ tcpdump top telnetd timed traceroute vdir w write"
+ 
+ # Tools
+-TOOLS="aliens asp bindshell lkm rexedcs sniffer w55808 wted scalper slapper z2"
++TOOLS="aliens asp bindshell lkm rexedcs sniffer promisctest w55808 wted scalper slapper z2"
+ 
+ # Return Codes
+ INFECTED=0
+@@ -172,6 +172,39 @@
+        fi
+     fi
+ }
++
++promisctest () { 
++	# Add gratutuous printf for "regular" mode output ("./chkrootkit promisctest")
++	printf "%s\n"; ip="/sbin/ip"
++	${egrep} /proc/version -qe "2\.(4|5|6)"; KERNVER="$?"
++	case "${KERNVER:0:1}" in
++	0)
++		if [ ! -x ${ip} ]; then
++			printf "%snot tested: can't exec ${ip}\n"
++			return ${NOT_TESTED}
++		fi
++		${ip} link show | ${egrep} "^[0-9]" | while read DEVF; do
++		DEVF=( ${DEVF} )
++		printf "%s${DEVF[@]}" | ${egrep} -qe "PROMISC"; STATUS="$?"
++		case "${STATUS:0:1}" in
++		1)
++			if [ "${EXPERT}" = "t" ]; then
++				printf "%s${DEVF[1]} has device flags:\t${DEVF[2]}\n"
++				else printf "%s${DEVF[1]}\tis not promisc\n"
++			fi;;
++		0)
++			if [ "${EXPERT}" = "t" ]; then
++				printf "%s${DEVF[1]} has device flags:\t${DEVF[2]}\n"
++				else printf "%s${DEVF[1]}\tIS PROMISC\n"
++			fi;;
++		esac
++		done;;
++	*)
++		echo "not tested."
++		return ${NOT_TESTED};;
++	esac
++ }
++
+ 
+ z2 () {
+     if [ ! -x ./chklastlog ]; then

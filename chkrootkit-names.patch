@@ -1,63 +1,46 @@
---- ./chkrootkit.org	Tue Jul  9 15:20:07 2002
-+++ ./chkrootkit	Tue Jul  9 15:19:45 2002
-@@ -47,7 +47,7 @@
- 
-     if [ "${EXPERT}" = "t" ]; then
-         expertmode_output "${egrep} ^asp ${ROOTDIR}etc/inetd.conf"
--        expertmode_output "${strings} -a ${CMD}"
-+        expertmode_output "${chkrootkit-strings} -a ${CMD}"
-         return 5
-     fi
- 
-@@ -63,7 +63,7 @@
-         STATUS=${INFECTED}
-     fi
- 
--    if ${strings} -a ${CMD} | ${egrep} "${ASP_LABEL}" >/dev/null 2>&1
-+    if ${chkrootkit-strings} -a ${CMD} | ${egrep} "${ASP_LABEL}" >/dev/null 2>&1
-        then
-           echo "INFECTED"
-           STATUS=${INFECTED}
-@@ -81,22 +81,22 @@
+diff -Nur chkrootkit-0.37.orig/chkrootkit chkrootkit-0.37/chkrootkit
+--- chkrootkit-0.37.orig/chkrootkit	Tue Sep 17 01:03:11 2002
++++ chkrootkit-0.37/chkrootkit	Thu Sep 19 13:12:20 2002
+@@ -125,22 +125,22 @@
         return ${NOT_TESTED}
      fi
  
 -    if [ ! -x ./ifpromisc ]; then
 -      echo "not tested: can't exec ./ifpromisc"
-+    if [ ! -x ./chkrootkit-ifpromisc ]; then
++    if [ ! -x /usr/bin/chkrootkit-ifpromisc ]; then
 +      echo "not tested: can't exec ./chkrootkit-ifpromisc"
        return ${NOT_TESTED}
      fi
  
      if [ "${EXPERT}" = "t" ]; then
 -        expertmode_output "./ifpromisc"
-+        expertmode_output "./chkrootkit-ifpromisc"
++        expertmode_output "/usr/bin/chkrootkit-ifpromisc"
          return 5
      fi
      echo
 -    ./ifpromisc
-+    ./chkrootkit-ifpromisc
++    /usr/bin/chkrootkit-ifpromisc
  }
  
  z2 () {
 -    if [ ! -x ./chklastlog ]; then
 -      echo "not tested: can't exec ./chklastlog"
-+    if [ ! -x ./chkrootkit-chklastlog ]; then
-+      echo "not tested: can't exec ./chkrootkit-chklastlog"
++    if [ ! -x /usr/bin/chkrootkit-chklastlog ]; then
++      echo "not tested: can't exec /usr/bin/chkrootkit-chklastlog"
        return ${NOT_TESTED}
      fi
  
-@@ -104,31 +104,31 @@
+@@ -148,31 +148,31 @@
      LASTLOG=`loc lastlog lastlog "${ROOTDIR}var/log ${ROOTDIR}var/adm"`
  
      if [ "${EXPERT}" = "t" ]; then
 -        expertmode_output "./chklastlog -f ${WTMP} -l ${LASTLOG}"
-+        expertmode_output "./chkrootkit-chklastlog -f ${WTMP} -l ${LASTLOG}"
++        expertmode_output "/usr/bin/chkrootkit-chklastlog -f ${WTMP} -l ${LASTLOG}"
          return 5
      fi
  
 -    if ./chklastlog -f ${WTMP} -l ${LASTLOG}
-+    if ./chkrootkit-chklastlog -f ${WTMP} -l ${LASTLOG}
++    if /usr/bin/chkrootkit-chklastlog -f ${WTMP} -l ${LASTLOG}
      then
        if [ "${QUIET}" != "t" ]; then echo "nothing deleted"; fi
      fi
@@ -66,49 +49,49 @@
  wted () {
 -    if [ ! -x ./chkwtmp ]; then
 -      echo "not tested: can't exec ./chkwtmp"
-+    if [ ! -x ./chkrootkit-chkwtmp ]; then
-+      echo "not tested: can't exec ./chkrootkit-chkwtmp"
++    if [ ! -x /usr/bin/chkrootkit-chkwtmp ]; then
++      echo "not tested: can't exec /usr/bin/chkrootkit-chkwtmp"
        return ${NOT_TESTED}
      fi
  
      if [ "$SYSTEM" = "SunOS" ]; then
 -       if [ ! -x ./check_wtmpx ]; then
 -          echo "not tested: can't exec ./check_wtmpx"
-+       if [ ! -x ./chkrootkit-check_wtmpx ]; then
-+          echo "not tested: can't exec ./chkrootkit-check_wtmpx"
++       if [ ! -x /usr/bin/chkrootkit-check_wtmpx ]; then
++          echo "not tested: can't exec /usr/bin/chkrootkit-check_wtmpx"
         else
            if [ "${EXPERT}" = "t" ]; then
--             expertmode_output "./chec_wtmpx"
-+             expertmode_output "./chkrootkit-check_wtmpx"
+-             expertmode_output "./check_wtmpx"
++             expertmode_output "/usr/bin/chkrootkit-check_wtmpx"
                return 5
            fi
 -          if ./check_wtmpx
-+          if ./chkrootkit-check_wtmpx
++          if /usr/bin/chkrootkit-check_wtmpx
               then
               if [ "${QUIET}" != "t" ]; then \
                  echo "nothing deleted in /var/adm/wtmpx"; fi
-@@ -139,11 +139,11 @@
-     WTMP=`loc wtmpx wtmpx "${ROOTDIR}var/log ${ROOTDIR}var/adm"`
+@@ -183,11 +183,11 @@
+     WTMP=`loc wtmp wtmp "${ROOTDIR}var/log ${ROOTDIR}var/adm"`
  
      if [ "${EXPERT}" = "t" ]; then
 -        expertmode_output "./chkwtmp -f ${WTMP}"
-+        expertmode_output "./chkrootkit-chkwtmp -f ${WTMP}"
++        expertmode_output "/usr/bin/chkrootkit-chkwtmp -f ${WTMP}"
          return 5
      fi
  
 -    if ./chkwtmp -f ${WTMP}
-+    if ./chkrootkit-chkwtmp -f ${WTMP}
++    if /usr/bin/chkrootkit-chkwtmp -f ${WTMP}
      then
        if [ "${QUIET}" != "t" ]; then echo "nothing deleted"; fi
      fi
-@@ -181,15 +181,15 @@
+@@ -225,15 +225,15 @@
  {
      if [ \( "${SYSTEM}" = "Linux"  -o \( "${SYSTEM}" = "FreeBSD" -a \
         ${V} -gt 43 \) \) -a "${ROOTDIR}" = "/" ]; then
 -      if [ ! -x ./chkproc ]; then
 -        echo "not tested: can't exec ./chkproc"
-+      if [ ! -x ./chkrootkit-chkproc ]; then
-+        echo "not tested: can't exec ./chkrootkit-chkproc"
++      if [ ! -x /usr/bin/chkrootkit-chkproc ]; then
++        echo "not tested: can't exec /usr/bin/chkrootkit-chkproc"
          return ${NOT_TESTED}
        fi
  
@@ -116,801 +99,39 @@
           [ -r /proc/ksyms ] &&  ${egrep} -i adore < /proc/ksyms 2>/dev/null
           [ -d /proc/knark ] &&  ${ls} -la /proc/knark 2> /dev/null
 -          expertmode_output "./chkproc -v"
-+          expertmode_output "./chkrootkit-chkproc -v"
++          expertmode_output "/usr/bin/chkrootkit-chkproc -v"
            return 5
        fi
  
-@@ -204,7 +204,7 @@
+@@ -248,7 +248,7 @@
           echo "Warning: Knark LKM installed"
        fi
  
 -      if ./chkproc
-+      if ./chkrootkit-chkproc
++      if /usr/bin/chkrootkit-chkproc
        then
             if [ "${QUIET}" != "t" ]; then echo "nothing detected"; fi
        else
-@@ -324,7 +324,7 @@
-         expertmode_output "${find} ${ROOTDIR}dev/cuc 2>&1 /dev/null"
- 
-         ### Monkit
--        expertmode_output "${find} ${ROOTDIR}lib/defs \
-+        expertmode_output "${find} ${ROOTDIR}lib/defs" \
- 
-         ### Showtee
-        expertmode_output "${ls} ${ROOTDIR}usr/lib/.egcs \
-@@ -332,7 +332,7 @@
- ${ROOTDIR}usr/lib/.kinetic ${ROOTDIR}/usr/lib/liblog.o \
- ${ROOTDIR}/usr/include/addr.h  ${ROOTDIR}usr/include/cron.h \
- ${ROOTDIR}/usr/include/file.h ${ROOTDIR}usr/include/proc.h \
--${ROOTDIR}/usr/include/syslogs.h ${ROOTDIR}/usr/include/chk.h  2> /dev/null
-+${ROOTDIR}/usr/include/syslogs.h ${ROOTDIR}/usr/include/chk.h  2> /dev/null"
- 
-        ### Optickit
-        expertmode_output "${find} ${ROOTDIR}usr/bin -name xchk -o -name xsf"
-@@ -805,19 +805,19 @@
-     CMD=`loc chfn chfn $pth`
- 
-     if [ "${EXPERT}" = "t" ]; then
--        expertmode_output "${strings} -a ${CMD}"
-+        expertmode_output "${chkrootkit-strings} -a ${CMD}"
-         return 5
-     fi
- 
-     case "${SYSTEM}" in
-        Linux)
--          if ${strings} -a ${CMD} | ${egrep} "${GENERIC_ROOTKIT_LABEL}" \
-+          if ${chkrootkit-strings} -a ${CMD} | ${egrep} "${GENERIC_ROOTKIT_LABEL}" \
-              >/dev/null 2>&1
-           then
-              STATUS=${INFECTED}
-           fi;;
-        FreeBSD)
--          if [ `${strings} -a ${CMD} | \
-+          if [ `${chkrootkit-strings} -a ${CMD} | \
-                 ${egrep} -c "${GENERIC_ROOTKIT_LABEL}"` -ne 2 ]
-           then
-              STATUS=${INFECTED}
-@@ -832,16 +832,16 @@
-     REDHAT_PAM_LABEL="*NOT*"
- 
-     if [ "${EXPERT}" = "t" ]; then
--        expertmode_output "${strings} -a ${CMD}"
-+        expertmode_output "${chkrootkit-strings} -a ${CMD}"
-         return 5
-     fi
- 
-     case "${SYSTEM}" in
-        Linux)
--          if ${strings} -a ${CMD} | ${egrep} "${GENERIC_ROOTKIT_LABEL}" \
-+          if ${chkrootkit-strings} -a ${CMD} | ${egrep} "${GENERIC_ROOTKIT_LABEL}" \
-           >/dev/null 2>&1
-              then
--             if ${strings} -a ${CMD} | ${egrep} "${REDHAT_PAM_LABEL}" \
-+             if ${chkrootkit-strings} -a ${CMD} | ${egrep} "${REDHAT_PAM_LABEL}" \
-              >/dev/null 2>&1
-                 then
-                 :
-@@ -850,7 +850,7 @@
-              fi
-           fi;;
-        FreeBSD)
--          if [ `${strings} -a ${CMD} | ${egrep} -c "${GENERIC_ROOTKIT_LABEL}"` -ne 2 ]
-+          if [ `${chkrootkit-strings} -a ${CMD} | ${egrep} -c "${GENERIC_ROOTKIT_LABEL}"` -ne 2 ]
-              then
-              STATUS=${INFECTED}
-           fi;;
-@@ -866,12 +866,12 @@
-     CMD=`loc login login $pth`
- 
-     if [ "${EXPERT}" = "t" ]; then
--        expertmode_output "${strings} -a ${CMD}"
-+        expertmode_output "${chkrootkit-strings} -a ${CMD}"
-         return 5
-     fi
- 
-     TROJED_L_L="^root$|vejeta|xlogin|^@\(#\)klogin\.c|lets_log|sukasuka|/usr/lib/.ark?|SucKIT"
--    ret=`${strings} -a ${CMD} | ${egrep} -c "${TROJED_L_L}"`
-+    ret=`${chkrootkit-strings} -a ${CMD} | ${egrep} -c "${TROJED_L_L}"`
-     if [ ${ret} -gt 0 ]; then
-         case ${ret} in
-         1) [ "${SYSTEM}" = "OpenBSD" -a ${V} -le 27 ] && \
-@@ -894,14 +894,14 @@
-     fi
- 
-     if [ "${EXPERT}" = "t" ]; then
--       expertmode_output "${strings} -a ${CMD}"
-+       expertmode_output "${chkrootkit-strings} -a ${CMD}"
-     fi
- 
-     if [ "${SYSTEM}" = "OpenBSD" -o "${SYSTEM}" = "SunOS" ]
-     then
-        return ${NOT_TESTED}
-     fi
--    if ${strings} -a ${CMD} | ${egrep} "${GENERIC_ROOTKIT_LABEL}" \
-+    if ${chkrootkit-strings} -a ${CMD} | ${egrep} "${GENERIC_ROOTKIT_LABEL}" \
-     >/dev/null 2>&1
-     then
-        STATUS=${INFECTED}
-@@ -919,11 +919,11 @@
-     fi
- 
-     if [ "${EXPERT}" = "t" ]; then
--        expertmode_output "${strings} -a ${CMD}"
-+        expertmode_output "${chkrootkit-strings} -a ${CMD}"
-         return 5
-     fi
- 
--    if ${strings} -a ${CMD} | ${egrep} "${GENERIC_ROOTKIT_LABEL}" \
-+    if ${chkrootkit-strings} -a ${CMD} | ${egrep} "${GENERIC_ROOTKIT_LABEL}" \
-     >/dev/null 2>&1
-     then
-        STATUS=${INFECTED}
-@@ -942,11 +942,11 @@
-     fi
- 
-     if [ "${EXPERT}" = "t" ]; then
--        expertmode_output "${strings} -a ${CMD}"
-+        expertmode_output "${chkrootkit-strings} -a ${CMD}"
-         return 5
-     fi
- 
--    if ${strings} -a ${CMD} | ${egrep} "${SYSLOG_I_L}" >/dev/null 2>&1
-+    if ${chkrootkit-strings} -a ${CMD} | ${egrep} "${SYSLOG_I_L}" >/dev/null 2>&1
-     then
-        STATUS=${INFECTED}
-     fi
-@@ -963,11 +963,11 @@
-     fi
- 
-     if [ "${EXPERT}" = "t" ]; then
--        expertmode_output "${strings} -a ${CMD}"
-+        expertmode_output "${chkrootkit-strings} -a ${CMD}"
-         return 5
-     fi
- 
--    if ${strings} -a ${CMD} | ${egrep} "${HDPARM_INFECTED_LABEL}" \
-+    if ${chkrootkit-strings} -a ${CMD} | ${egrep} "${HDPARM_INFECTED_LABEL}" \
-        >/dev/null 2>&1
-     then
-        STATUS=${INFECTED}
-@@ -985,11 +985,11 @@
-     fi
- 
-     if [ "${EXPERT}" = "t" ]; then
--        expertmode_output "${strings} -a ${CMD}"
-+        expertmode_output "${chkrootkit-strings} -a ${CMD}"
-         return 5
-     fi
- 
--    if ${strings} -a ${CMD} | ${egrep} "${GPM_INFECTED_LABEL}" \
-+    if ${chkrootkit-strings} -a ${CMD} | ${egrep} "${GPM_INFECTED_LABEL}" \
-        >/dev/null 2>&1
-     then
-        STATUS=${INFECTED}
-@@ -1007,11 +1007,11 @@
-     fi
- 
-     if [ "${EXPERT}" = "t" ]; then
--        expertmode_output "${strings} -a ${CMD}"
-+        expertmode_output "${chkrootkit-strings} -a ${CMD}"
-         return 5
-     fi
- 
--    if ${strings} -a ${CMD} | ${egrep} "${MINGETTY_INFECTED_LABEL}" \
-+    if ${chkrootkit-strings} -a ${CMD} | ${egrep} "${MINGETTY_INFECTED_LABEL}" \
-        >/dev/null 2>&1
-     then
-        STATUS=${INFECTED}
-@@ -1029,11 +1029,11 @@
-     fi
- 
-     if [ "${EXPERT}" = "t" ]; then
--        expertmode_output "${strings} -a ${CMD}"
-+        expertmode_output "${chkrootkit-strings} -a ${CMD}"
-         return 5
-     fi
- 
--    if ${strings} -a ${CMD} | ${egrep} "${SENDMAIL_INFECTED_LABEL}" \
-+    if ${chkrootkit-strings} -a ${CMD} | ${egrep} "${SENDMAIL_INFECTED_LABEL}" \
-        >/dev/null 2>&1
-     then
-        STATUS=${INFECTED}
-@@ -1047,11 +1047,11 @@
-     CMD=`loc ls ls $pth`
- 
-     if [ "${EXPERT}" = "t" ]; then
--        expertmode_output "${strings} -a ${CMD}"
-+        expertmode_output "${chkrootkit-strings} -a ${CMD}"
-         return 5
-     fi
- 
--    if ${strings} -a ${CMD} | ${egrep} "${LS_INFECTED_LABEL}" >/dev/null 2>&1
-+    if ${chkrootkit-strings} -a ${CMD} | ${egrep} "${LS_INFECTED_LABEL}" >/dev/null 2>&1
-     then
-        STATUS=${INFECTED}
-     fi
-@@ -1064,11 +1064,11 @@
-     CMD=`loc du du $pth`
- 
-     if [ "${EXPERT}" = "t" ]; then
--        expertmode_output "${strings} -a ${CMD}"
-+        expertmode_output "${chkrootkit-strings} -a ${CMD}"
-         return 5
-     fi
- 
--    if ${strings} -a ${CMD} | ${egrep} "${DU_INFECTED_LABEL}" >/dev/null 2>&1
-+    if ${chkrootkit-strings} -a ${CMD} | ${egrep} "${DU_INFECTED_LABEL}" >/dev/null 2>&1
-     then
-        STATUS=${INFECTED}
-     fi
-@@ -1088,11 +1088,11 @@
-     fi
- 
-     if [ "${EXPERT}" = "t" ]; then
--        expertmode_output "${strings} -a ${CMD}"
-+        expertmode_output "${chkrootkit-strings} -a ${CMD}"
-         return 5
-     fi
- 
--    if ${strings} -a ${CMD} | ${egrep} "${NAMED_I_L}" \
-+    if ${chkrootkit-strings} -a ${CMD} | ${egrep} "${NAMED_I_L}" \
-     >/dev/null 2>&1
-     then
-        STATUS=${INFECTED}
-@@ -1106,11 +1106,11 @@
-     CMD=`loc netstat netstat $pth`
- 
-     if [ "${EXPERT}" = "t" ]; then
--        expertmode_output "${strings} -a ${CMD}"
-+        expertmode_output "${chkrootkit-strings} -a ${CMD}"
-         return 5
-     fi
- 
--    if ${strings} -a ${CMD} | ${egrep} "${NETSTAT_I_L}" \
-+    if ${chkrootkit-strings} -a ${CMD} | ${egrep} "${NETSTAT_I_L}" \
-     >/dev/null 2>&1
-     then
-        STATUS=${INFECTED}
-@@ -1125,11 +1125,11 @@
-    CMD=`loc ps ps $pth`
- 
-     if [ "${EXPERT}" = "t" ]; then
--        expertmode_output "${strings} -a ${CMD}"
-+        expertmode_output "${chkrootkit-strings} -a ${CMD}"
-         return 5
-     fi
- 
--    if ${strings} -a ${CMD} | ${egrep} "${PS_I_L}" >/dev/null 2>&1
-+    if ${chkrootkit-strings} -a ${CMD} | ${egrep} "${PS_I_L}" >/dev/null 2>&1
-     then
-        STATUS=${INFECTED}
-     fi
-@@ -1147,11 +1147,11 @@
-     fi
- 
-     if [ "${EXPERT}" = "t" ]; then
--        expertmode_output "${strings} -a ${CMD}"
-+        expertmode_output "${chkrootkit-strings} -a ${CMD}"
-         return 5
-     fi
- 
--    if ${strings} -a ${CMD} | ${egrep} "${PSTREE_INFECTED_LABEL}" >/dev/null 2>&1
-+    if ${chkrootkit-strings} -a ${CMD} | ${egrep} "${PSTREE_INFECTED_LABEL}" >/dev/null 2>&1
-     then
-        STATUS=${INFECTED}
-     fi
-@@ -1169,11 +1169,11 @@
-     fi
- 
-     if [ "${EXPERT}" = "t" ]; then
--        expertmode_output "${strings} -a ${CMD}"
-+        expertmode_output "${chkrootkit-strings} -a ${CMD}"
-         return 5
-     fi
- 
--    if ${strings} -a ${CMD} | ${egrep} "${TOP_INFECTED_LABEL}" >/dev/null 2>&1
-+    if ${chkrootkit-strings} -a ${CMD} | ${egrep} "${TOP_INFECTED_LABEL}" >/dev/null 2>&1
-     then
-        STATUS=${INFECTED}
-     fi
-@@ -1191,11 +1191,11 @@
-     fi
- 
-     if [ "${EXPERT}" = "t" ]; then
--        expertmode_output "${strings} -a ${CMD}"
-+        expertmode_output "${chkrootkit-strings} -a ${CMD}"
-         return 5
-     fi
- 
--    if ${strings} -a ${CMD} | ${egrep} "${TOP_INFECTED_LABEL}" >/dev/null 2>&1
-+    if ${chkrootkit-strings} -a ${CMD} | ${egrep} "${TOP_INFECTED_LABEL}" >/dev/null 2>&1
-     then
-        STATUS=${INFECTED}
-     fi
-@@ -1213,11 +1213,11 @@
-     fi
- 
-     if [ "${EXPERT}" = "t" ]; then
--        expertmode_output "${strings} -a ${CMD}"
-+        expertmode_output "${chkrootkit-strings} -a ${CMD}"
-         return 5
-     fi
- 
--    if ${strings} -a ${CMD} | ${egrep} "${TOP_INFECTED_LABEL}" >/dev/null 2>&1
-+    if ${chkrootkit-strings} -a ${CMD} | ${egrep} "${TOP_INFECTED_LABEL}" >/dev/null 2>&1
-     then
-        STATUS=${INFECTED}
-     fi
-@@ -1230,18 +1230,18 @@
+@@ -1293,18 +1293,18 @@
  
     if [ "${SYSTEM}" = "Linux" ]
     then
 -      if [ ! -x ./strings ]; then
-+      if [ ! -x ./chkrootkit-strings ]; then
-         printn "can't exec ./strings-static, "
+-        printn "can't exec ./strings-static, "
++      if [ ! -x /usr/bin/chkrootkit-strings ]; then
++        printn "can't exec /usr/bin/chkrootkit-strings, "
          return ${NOT_TESTED}
        fi
  
        if [ "${EXPERT}" = "t" ]; then
 -          expertmode_output "./strings -a ${CMD}"
-+          expertmode_output "./chkrootkit-strings -a ${CMD}"
++          expertmode_output "/usr/bin/chkrootkit-strings -a ${CMD}"
            return 5
        fi
  
--      ### strings must be a statically linked binary.
+       ### strings must be a statically linked binary.
 -      if ./strings-static -a ${CMD} > /dev/null 2>&1
-+      ### chkrootkit-strings must be a statically linked binary.
-+      if ./chkrootkit-strings-static -a ${CMD} > /dev/null 2>&1
++      if /usr/bin/chkrootkit-strings -a ${CMD} > /dev/null 2>&1
        then
           STATUS=${INFECTED}
        fi
-@@ -1256,11 +1256,11 @@
-    CMD=`loc basename basename $pth`
- 
-    if [ "${EXPERT}" = "t" ]; then
--       expertmode_output "${strings} -a ${CMD}"
-+       expertmode_output "${chkrootkit-strings} -a ${CMD}"
-        expertmode_output "${ls} -l ${CMD}"
-        return 5
-    fi
--   if ${strings} -a ${CMD} | ${egrep} "${GENERIC_ROOTKIT_LABEL}" > /dev/null 2>&1
-+   if ${chkrootkit-strings} -a ${CMD} | ${egrep} "${GENERIC_ROOTKIT_LABEL}" > /dev/null 2>&1
-    then
-        STATUS=${INFECTED}
-    fi
-@@ -1276,11 +1276,11 @@
-     CMD=`loc dirname dirname $pth`
- 
-     if [ "${EXPERT}" = "t" ]; then
--        expertmode_output "${strings} -a ${CMD}"
-+        expertmode_output "${chkrootkit-strings} -a ${CMD}"
-         expertmode_output "${ls} -l ${CMD}"
-         return 5
-     fi
--    if ${strings} -a ${CMD} | ${egrep} "${GENERIC_ROOTKIT_LABEL}" > /dev/null 2>&1
-+    if ${chkrootkit-strings} -a ${CMD} | ${egrep} "${GENERIC_ROOTKIT_LABEL}" > /dev/null 2>&1
-     then
-         STATUS=${INFECTED}
-     fi
-@@ -1301,11 +1301,11 @@
-     fi
- 
-     if [ "${EXPERT}" = "t" ]; then
--        expertmode_output "${strings} -a ${CMD}"
-+        expertmode_output "${chkrootkit-strings} -a ${CMD}"
-         return 5
-     fi
- 
--    if ${strings} -a ${CMD} | ${egrep} "${GENERIC_ROOTKIT_LABEL}" > /dev/null 2>&1
-+    if ${chkrootkit-strings} -a ${CMD} | ${egrep} "${GENERIC_ROOTKIT_LABEL}" > /dev/null 2>&1
-     then
-         STATUS=${INFECTED}
-     fi
-@@ -1317,12 +1317,12 @@
-     CMD=`loc rpcinfo rpcinfo $pth`
- 
-     if [ "${EXPERT}" = "t" ]; then
--        expertmode_output "${strings} -a ${CMD}"
-+        expertmode_output "${chkrootkit-strings} -a ${CMD}"
-         expertmode_output "${ls} -l ${CMD}"
-         return 5
-     fi
- 
--    if ${strings} -a ${CMD} | ${egrep} "${GENERIC_ROOTKIT_LABEL}" > /dev/null 2>&1
-+    if ${chkrootkit-strings} -a ${CMD} | ${egrep} "${GENERIC_ROOTKIT_LABEL}" > /dev/null 2>&1
-     then
-         STATUS=${INFECTED}
-     fi
-@@ -1338,12 +1338,12 @@
-     CMD=`loc date date $pth`
- 
-     if [ "${EXPERT}" = "t" ]; then
--        expertmode_output "${strings} -a ${CMD}"
-+        expertmode_output "${chkrootkit-strings} -a ${CMD}"
-         expertmode_output "${ls} -l ${CMD}"
-         return 5
-     fi
- 
--    if ${strings} -a ${CMD} | ${egrep} "${GENERIC_ROOTKIT_LABEL}" > /dev/null 2>&1
-+    if ${chkrootkit-strings} -a ${CMD} | ${egrep} "${GENERIC_ROOTKIT_LABEL}" > /dev/null 2>&1
-     then
-         STATUS=${INFECTED}
-     fi
-@@ -1359,12 +1359,12 @@
-     CMD=`loc echo echo $pth`
- 
-     if [ "${EXPERT}" = "t" ]; then
--        expertmode_output "${strings} -a ${CMD}"
-+        expertmode_output "${chkrootkit-strings} -a ${CMD}"
-         expertmode_output "${ls} -l ${CMD}"
-         return 5
-     fi
- 
--    if ${strings} -a ${CMD} | ${egrep} "${GENERIC_ROOTKIT_LABEL}" > /dev/null 2>&1
-+    if ${chkrootkit-strings} -a ${CMD} | ${egrep} "${GENERIC_ROOTKIT_LABEL}" > /dev/null 2>&1
-     then
-         STATUS=${INFECTED}
-     fi
-@@ -1380,12 +1380,12 @@
-     CMD=`loc env env $pth`
- 
-     if [ "${EXPERT}" = "t" ]; then
--        expertmode_output "${strings} -a ${CMD}"
-+        expertmode_output "${chkrootkit-strings} -a ${CMD}"
-         expertmode_output "${ls} -l ${CMD}"
-         return 5
-     fi
- 
--    if ${strings} -a ${CMD} | ${egrep} "${GENERIC_ROOTKIT_LABEL}" > /dev/null 2>&1
-+    if ${chkrootkit-strings} -a ${CMD} | ${egrep} "${GENERIC_ROOTKIT_LABEL}" > /dev/null 2>&1
-     then
-         STATUS=${INFECTED}
-     fi
-@@ -1407,11 +1407,11 @@
-        fi
-     fi
-     if [ "${EXPERT}" = "t" ]; then
--        expertmode_output "${strings} -a ${CMD}"
-+        expertmode_output "${chkrootkit-strings} -a ${CMD}"
-         return 5
-     fi
- 
--    if ${strings} -a ${CMD} | ${egrep} "${GENERIC_ROOTKIT_LABEL}" > /dev/null 2>&1
-+    if ${chkrootkit-strings} -a ${CMD} | ${egrep} "${GENERIC_ROOTKIT_LABEL}" > /dev/null 2>&1
-     then
-         STATUS=${INFECTED}
-     fi
-@@ -1425,11 +1425,11 @@
-        return ${NOT_FOUND}
-     fi
-     if [ "${EXPERT}" = "t" ]; then
--        expertmode_output "${strings} -a ${CMD}"
-+        expertmode_output "${chkrootkit-strings} -a ${CMD}"
-         return 5
-     fi
- 
--    if ${strings} -a ${CMD} | ${egrep} "${GENERIC_ROOTKIT_LABEL}" > /dev/null 2>&1
-+    if ${chkrootkit-strings} -a ${CMD} | ${egrep} "${GENERIC_ROOTKIT_LABEL}" > /dev/null 2>&1
-     then
-         STATUS=${INFECTED}
-     fi
-@@ -1443,11 +1443,11 @@
-        return ${NOT_FOUND}
-     fi
-     if [ "${EXPERT}" = "t" ]; then
--        expertmode_output "${strings} -a ${CMD}"
-+        expertmode_output "${chkrootkit-strings} -a ${CMD}"
-         return 5
-     fi
- 
--    if ${strings} -a ${CMD} | ${egrep} "${GENERIC_ROOTKIT_LABEL}" > /dev/null 2>&1
-+    if ${chkrootkit-strings} -a ${CMD} | ${egrep} "${GENERIC_ROOTKIT_LABEL}" > /dev/null 2>&1
-     then
-         STATUS=${INFECTED}
-     fi
-@@ -1461,11 +1461,11 @@
-         return ${NOT_FOUND}
-     fi
-     if [ "${EXPERT}" = "t" ]; then
--        expertmode_output "${strings} -a ${CMD}"
-+        expertmode_output "${chkrootkit-strings} -a ${CMD}"
-         return 5
-     fi
- 
--    if ${strings} -a ${CMD} | ${egrep} "${GENERIC_ROOTKIT_LABEL}" > /dev/null 2>&1
-+    if ${chkrootkit-strings} -a ${CMD} | ${egrep} "${GENERIC_ROOTKIT_LABEL}" > /dev/null 2>&1
-     then
-         STATUS=${INFECTED}
-     fi
-@@ -1477,12 +1477,12 @@
-     CMD=`loc write write $pth`
- 
-     if [ "${EXPERT}" = "t" ]; then
--        expertmode_output "${strings} -a ${CMD}"
-+        expertmode_output "${chkrootkit-strings} -a ${CMD}"
-         expertmode_output "${ls} -l ${CMD}"
-         return 5
-     fi
- 
--    if ${strings} -a ${CMD} | ${egrep} "${GENERIC_ROOTKIT_LABEL}" > /dev/null 2>&1
-+    if ${chkrootkit-strings} -a ${CMD} | ${egrep} "${GENERIC_ROOTKIT_LABEL}" > /dev/null 2>&1
-     then
-         STATUS=${INFECTED}
-     fi
-@@ -1499,11 +1499,11 @@
-     W_INFECTED_LABEL="uname -a"
- 
-     if [ "${EXPERT}" = "t" ]; then
--        expertmode_output "${strings} -a ${CMD}"
-+        expertmode_output "${chkrootkit-strings} -a ${CMD}"
-         expertmode_output "${ls} -l ${CMD}"
-         return 5
-     fi
--    if ${strings} -a ${CMD} | ${egrep} "${W_INFECTED_LABEL}" > /dev/null 2>&1
-+    if ${chkrootkit-strings} -a ${CMD} | ${egrep} "${W_INFECTED_LABEL}" > /dev/null 2>&1
-     then
-         STATUS=${INFECTED}
-     fi
-@@ -1535,7 +1535,7 @@
-     fi
- 
-     if [ "${EXPERT}" = "t" ]; then
--        expertmode_output "${strings} -a ${CMD}"
-+        expertmode_output "${chkrootkit-strings} -a ${CMD}"
-         return 5
-     fi
-     STATUS=${INFECTED}
-@@ -1553,12 +1553,12 @@
-     MAIL_INFECTED_LABEL="sh -i"
- 
-     if [ "${EXPERT}" = "t" ]; then
--        expertmode_output "${strings} -a ${CMD}"
-+        expertmode_output "${chkrootkit-strings} -a ${CMD}"
-         expertmode_output "${ls} -l ${CMD}"
-         return 5
-     fi
- 
--    if ${strings} -a ${CMD} | ${egrep} "${MAIL_INFECTED_LABEL}" > /dev/null 2>&1
-+    if ${chkrootkit-strings} -a ${CMD} | ${egrep} "${MAIL_INFECTED_LABEL}" > /dev/null 2>&1
-     then
-         STATUS=${INFECTED}
-     fi
-@@ -1578,12 +1578,12 @@
-     fi
- 
-     if [ "${EXPERT}" = "t" ]; then
--        expertmode_output "${strings} -a ${CMD}"
-+        expertmode_output "${chkrootkit-strings} -a ${CMD}"
-         expertmode_output "${ls} -l ${CMD}"
-         return 5
-     fi
- 
--    if ${strings} -a ${CMD} | ${egrep} "${GENERIC_ROOTKIT_LABEL}" > /dev/null 2>&1
-+    if ${chkrootkit-strings} -a ${CMD} | ${egrep} "${GENERIC_ROOTKIT_LABEL}" > /dev/null 2>&1
-     then
-         STATUS=${INFECTED}
-     fi
-@@ -1600,11 +1600,11 @@
-     CMD=`loc egrep egrep $pth`
- 
-     if [ "${EXPERT}" = "t" ]; then
--        expertmode_output "${strings} -a ${CMD}"
-+        expertmode_output "${chkrootkit-strings} -a ${CMD}"
-         expertmode_output "${ls} -l ${CMD}"
-         return 5
-     fi
--    if ${strings} -a ${CMD} | ${egrep} "${EGREP_INFECTED_LABEL}" > /dev/null 2>&1
-+    if ${chkrootkit-strings} -a ${CMD} | ${egrep} "${EGREP_INFECTED_LABEL}" > /dev/null 2>&1
-     then
-         STATUS=${INFECTED}
-     fi
-@@ -1617,12 +1617,12 @@
-     CMD=`loc grep grep $pth`
- 
-     if [ "${EXPERT}" = "t" ]; then
--        expertmode_output "${strings} -a ${CMD}"
-+        expertmode_output "${chkrootkit-strings} -a ${CMD}"
-         expertmode_output "${ls} -l ${CMD}"
-         return 5
-     fi
- 
--    if ${strings} -a ${CMD} | ${egrep} "${GREP_INFECTED_LABEL}" > /dev/null 2>&1
-+    if ${chkrootkit-strings} -a ${CMD} | ${egrep} "${GREP_INFECTED_LABEL}" > /dev/null 2>&1
-     then
-         STATUS=${INFECTED}
-     fi
-@@ -1644,11 +1644,11 @@
-     fi
- 
-     if [ "${EXPERT}" = "t" ]; then
--        expertmode_output "${strings} -a ${CMD}"
-+        expertmode_output "${chkrootkit-strings} -a ${CMD}"
-         return 5
-     fi
- 
--    if ${strings} -a ${CMD} | ${egrep} "${TOP_INFECTED_LABEL}" >/dev/null 2>&1
-+    if ${chkrootkit-strings} -a ${CMD} | ${egrep} "${TOP_INFECTED_LABEL}" >/dev/null 2>&1
-     then
-        STATUS=${INFECTED}
-     fi
-@@ -1666,10 +1666,10 @@
-        fi
-     fi
-     if [ "${EXPERT}" = "t" ]; then
--        expertmode_output "${strings} -a ${CMD}"
-+        expertmode_output "${chkrootkit-strings} -a ${CMD}"
-         return 5
-     fi
--    if ${strings} -a ${CMD} | ${egrep} "${RLOGIN_INFECTED_LABEL}" >/dev/null 2>&1
-+    if ${chkrootkit-strings} -a ${CMD} | ${egrep} "${RLOGIN_INFECTED_LABEL}" >/dev/null 2>&1
-     then
-        STATUS=${INFECTED}
-     fi
-@@ -1684,10 +1684,10 @@
-          return ${NOT_FOUND}
-     fi
-     if [ "${EXPERT}" = "t" ]; then
--        expertmode_output "${strings} -a ${CMD}"
-+        expertmode_output "${chkrootkit-strings} -a ${CMD}"
-         return 5
-     fi
--    if ${strings} -a ${CMD} | ${egrep} "${LSOF_INFECTED_LABEL}" >/dev/null 2>&1
-+    if ${chkrootkit-strings} -a ${CMD} | ${egrep} "${LSOF_INFECTED_LABEL}" >/dev/null 2>&1
-     then
-        STATUS=${INFECTED}
-     fi
-@@ -1702,10 +1702,10 @@
-          return ${NOT_FOUND}
-     fi
-     if [ "${EXPERT}" = "t" ]; then
--        expertmode_output "${strings} -a ${CMD}"
-+        expertmode_output "${chkrootkit-strings} -a ${CMD}"
-         return 5
-     fi
--    if ${strings} -a ${CMD} | ${egrep} "${AMD_INFECTED_LABEL}" >/dev/null 2>&1
-+    if ${chkrootkit-strings} -a ${CMD} | ${egrep} "${AMD_INFECTED_LABEL}" >/dev/null 2>&1
-     then
-        STATUS=${INFECTED}
-     fi
-@@ -1720,10 +1720,10 @@
-          return ${NOT_FOUND}
-     fi
-     if [ "${EXPERT}" = "t" ]; then
--        expertmode_output "${strings} -a ${CMD}"
-+        expertmode_output "${chkrootkit-strings} -a ${CMD}"
-         return 5
-     fi
--    if ${strings} -a ${CMD} | ${egrep} "${SLOGIN_INFECTED_LABEL}" >/dev/null 2>&1
-+    if ${chkrootkit-strings} -a ${CMD} | ${egrep} "${SLOGIN_INFECTED_LABEL}" >/dev/null 2>&1
-     then
-        STATUS=${INFECTED}
-     fi
-@@ -1742,10 +1742,10 @@
-         return ${NOT_FOUND}
-     fi
-     if [ "${EXPERT}" = "t" ]; then
--        expertmode_output "${strings} -a ${CMD}"
-+        expertmode_output "${chkrootkit-strings} -a ${CMD}"
-         return 5
-     fi
--    if ${strings} -a ${CMD} | ${egrep} "${CRON_INFECTED_LABEL}" >/dev/null 2>&1
-+    if ${chkrootkit-strings} -a ${CMD} | ${egrep} "${CRON_INFECTED_LABEL}" >/dev/null 2>&1
-     then
-        STATUS=${INFECTED}
-     fi
-@@ -1757,18 +1757,18 @@
-     CMD="${ROOTDIR}sbin/ifconfig"
- 
-     if [ "${EXPERT}" = "t" ]; then
--        expertmode_output "${strings} -a ${CMD}"
-+        expertmode_output "${chkrootkit-strings} -a ${CMD}"
-         return 5
-     fi
- 
-     IFCONFIG_NOT_INFECTED_LABEL="PROMISC"
-     IFCONFIG_INFECTED_LABEL="/dev/tux"
--    if ${strings} -a ${CMD} | ${egrep} "${IFCONFIG_NOT_INFECTED_LABEL}" \
-+    if ${chkrootkit-strings} -a ${CMD} | ${egrep} "${IFCONFIG_NOT_INFECTED_LABEL}" \
-     >/dev/null 2>&1
-     then
-        STATUS=${NOT_INFECTED}
-     fi
--    if ${strings} -a ${CMD} | ${egrep} "${IFCONFIG_INFECTED_LABEL}" \
-+    if ${chkrootkit-strings} -a ${CMD} | ${egrep} "${IFCONFIG_INFECTED_LABEL}" \
-     >/dev/null 2>&1
-     then
-        STATUS=${INFECTED}
-@@ -1788,12 +1788,12 @@
-        return ${NOT_FOUND}
-     fi
-     if [ "${EXPERT}" = "t" ]; then
--        expertmode_output "${strings} -a ${CMD}"
-+        expertmode_output "${chkrootkit-strings} -a ${CMD}"
-         return 5
-     fi
- 
-     RSHD_INFECTED_LABEL="HISTFILE"
--    if ${strings} -a ${CMD} | ${egrep} "${RSHD_INFECTED_LABEL}" > /dev/null 2>&1
-+    if ${chkrootkit-strings} -a ${CMD} | ${egrep} "${RSHD_INFECTED_LABEL}" > /dev/null 2>&1
-     then
-         STATUS=${INFECTED}
-         if ${egrep} "^#.*rshd" ${ROOTDIR}etc/inetd.conf >/dev/null 2>&1 -o \
-@@ -1819,11 +1819,11 @@
-     CMD=${ROOTDIR}${CMD}
- 
-     if [ "${EXPERT}" = "t" ]; then
--        expertmode_output "${strings} -a ${CMD}"
-+        expertmode_output "${chkrootkit-strings} -a ${CMD}"
-         return 5
-     fi
- 
--    if ${strings} -a ${CMD} | ${egrep} "${TCPD_INFECTED_LABEL}" > /dev/null 2>&1
-+    if ${chkrootkit-strings} -a ${CMD} | ${egrep} "${TCPD_INFECTED_LABEL}" > /dev/null 2>&1
-     then
-         STATUS=${INFECTED}
-     fi
-@@ -1840,11 +1840,11 @@
-     fi
- 
-     if [ "${EXPERT}" = "t" ]; then
--        expertmode_output "${strings} -a ${CMD}"
-+        expertmode_output "${chkrootkit-strings} -a ${CMD}"
-         return 5
-     fi
- 
--    if ${strings} -a ${CMD} | ${egrep} "${SSHD2_INFECTED_LABEL}" \
-+    if ${chkrootkit-strings} -a ${CMD} | ${egrep} "${SSHD2_INFECTED_LABEL}" \
-        > /dev/null 2>&1
-     then
-         STATUS=${INFECTED}
-@@ -1861,11 +1861,11 @@
-     CMD=`loc su su $pth`
- 
-     if [ "${EXPERT}" = "t" ]; then
--        expertmode_output "${strings} -a ${CMD}"
-+        expertmode_output "${chkrootkit-strings} -a ${CMD}"
-         return 5
-     fi
- 
--    if ${strings} -a ${CMD} | ${egrep} "${SU_INFECTED_LABEL}" > /dev/null 2>&1
-+    if ${chkrootkit-strings} -a ${CMD} | ${egrep} "${SU_INFECTED_LABEL}" > /dev/null 2>&1
-     then
-         STATUS=${INFECTED}
-     fi
-@@ -1885,11 +1885,11 @@
-     fi
- 
-     if [ "${EXPERT}" = "t" ]; then
--        expertmode_output "${strings} -a ${CMD}"
-+        expertmode_output "${chkrootkit-strings} -a ${CMD}"
-         return 5
-     fi
- 
--    if ${strings} -a ${CMD} | ${egrep} "${FINGER_INFECTED_LABEL}" \
-+    if ${chkrootkit-strings} -a ${CMD} | ${egrep} "${FINGER_INFECTED_LABEL}" \
- > /dev/null 2>&1
-     then
-         STATUS=${INFECTED}
-@@ -1937,11 +1937,11 @@
-     fi
- 
-     if [ "${EXPERT}" = "t" ]; then
--        expertmode_output "${strings} -a ${CMD}"
-+        expertmode_output "${chkrootkit-strings} -a ${CMD}"
-         return 5
-     fi
- 
--    if ${strings} -a ${CMD} | ${egrep} "${TELNETD_INFECTED_LABEL}" \
-+    if ${chkrootkit-strings} -a ${CMD} | ${egrep} "${TELNETD_INFECTED_LABEL}" \
-        >/dev/null 2>&1
-     then
-         STATUS=${INFECTED}
-@@ -2021,7 +2021,7 @@
- netstat
- ps
- sed
--strings
-+chkrootkit-strings
- uname
- "
- 

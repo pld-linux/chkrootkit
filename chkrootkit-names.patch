@@ -7,7 +7,7 @@ diff -Nur chkrootkit-0.39a.orig/chkrootkit chkrootkit-0.39a/chkrootkit
  
 -    if [ ! -x ./ifpromisc ]; then
 -      echo "not tested: can't exec ./ifpromisc"
-+    if [ ! -x /usr/bin/ifpromisc ]; then
++    if [ ! -x /usr/bin/chkrootkit-ifpromisc ]; then
 +      echo "not tested: can't exec /usr/bin/chkrootkit-ifpromisc"
        return ${NOT_TESTED}
      fi

@@ -2,7 +2,7 @@ Summary:	chkrootkit - locally checks for signs of a rootkit
 Summary(pl):	chkrootkit - narzêdzie do lokalnego szukania oznak rootkitów
 Name:		chkrootkit
 Version:	0.43
-Release:	2
+Release:	3
 License:	AMS (BSD like; look at COPYRIGHT)
 Group:		Applications/Networking
 #Source0:	ftp://sunsite.icm.edu.pl/pub/unix/security/chkrootkit/%{name}-%{version}.tar.gz
@@ -35,6 +35,8 @@ Chkrootkit is a toolkit to locally check for signs of a rootkit.
  - chkproc: checks for signs of LKM trojans. (kernel modules)
  - strings: quick and dirty strings replacement.
 
+Packages is litle outdated, please use rkhunter or similar.
+
 %description -l pl
 Chkrootkit to zestaw narzêdzi do lokalnego sprawdzania oznak u¿ycia
 rootkitów.
@@ -48,6 +50,8 @@ rootkitów.
  - check_wtmpx: sprawdza kasowanie w wtmpx deletions (tylko Solaris)
  - chkproc: szuka oznak trojanów LKM (modu³y j±dra)
  - strings: szybko i brzydko napisany zamiennik programu strings.
+
+Pakiet ten jest przestarza³y, prosze u¿yæ rkhunter lub podobnego.
 
 %prep
 %setup -q

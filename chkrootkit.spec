@@ -14,6 +14,8 @@ Patch1:		%{name}-nostrip.patch
 Patch2:		%{name}-names.patch
 Patch3:		%{name}-wtmp.patch
 Patch4:		%{name}-usebash.patch
+Patch5:   http://www.rootshell.be/~unspawn/packaging/chkrootkit-0.42-ip.patch
+# Patch5-md5: 0dfeda71b081eaa8c316eca1f81b21f0
 URL:		http://www.chkrootkit.org/
 BuildRequires:	glibc-static
 Requires:	binutils
@@ -53,6 +55,7 @@ rootkitów.
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p0
 
 %build
 CC=%{__cc}

@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Get service config
-[ -f /etc/sysconfig/aide ] && . /etc/sysconfig/aide
+[ -f /etc/sysconfig/chkrootkit ] && . /etc/sysconfig/chkrootkit
 
 DATA=`date`
 SYSTEM=`hostname`

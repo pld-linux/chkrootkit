@@ -2,7 +2,7 @@ Summary:	chkrootkit - locally checks for signs of a rootkit
 Summary(pl):	chkrootkit - narzêdzie do lokalnego szukania oznak rootkitów
 Name:		chkrootkit
 Version:	0.35
-Release:	1
+Release:	2
 License:	Copyrighted
 Group:		Applications/Networking
 Group(cs):	Aplikace/Sí»ové
@@ -51,7 +51,7 @@ rootkitów.
  - chkwtmp: sprawdza kasowanie wtmpx
  - check_wtmpx: sprawdza kasowanie w wtmpx deletions (tylko Solaris)
  - chkproc: szuka oznak trojanów LKM (modu³y j±dra)
- - strings: szybkie i brzydkie podmiany ci±gów znaków.
+ - strings: szybko i brzydko napisany zamiennik programu strings.
 
 %prep
 %setup -q
@@ -59,12 +59,10 @@ rootkitów.
 %patch1 -p1
 %patch2 -p1
 
-
 %build
 CC=%{__cc}
 export CC
 %{__make} sense
-
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -78,10 +76,8 @@ install chkrootkit $RPM_BUILD_ROOT/%{_bindir}
 
 gzip -9nf COPYRIGHT README README.chklastlog README.chkwtmp
 
-
 %clean
 rm -rf $RPM_BUILD_ROOT
-
 
 %files
 %defattr(644,root,root,755)

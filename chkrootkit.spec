@@ -24,15 +24,15 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
 Chkrootkit is a toolkit to locally check for signs of a rootkit.
- - chkrootkit: a shell script that checks system binaries for rootkit
-   modification. (If you can't trust rpm -Va)
- - ifpromisc: checks if the network interface is in promiscuous mode.
-   (If you can't trust netstat)
- - chklastlog: checks for lastlog deletions.
- - chkwtmp: checks for wtmp deletions.
- - check_wtmpx: checks for wtmpx deletions. (Solaris only)
- - chkproc: checks for signs of LKM trojans. (kernel modules)
- - strings: quick and dirty strings replacement.
+- chkrootkit: a shell script that checks system binaries for rootkit
+  modification. (If you can't trust rpm -Va)
+- ifpromisc: checks if the network interface is in promiscuous mode.
+  (If you can't trust netstat)
+- chklastlog: checks for lastlog deletions.
+- chkwtmp: checks for wtmp deletions.
+- check_wtmpx: checks for wtmpx deletions. (Solaris only)
+- chkproc: checks for signs of LKM trojans. (kernel modules)
+- strings: quick and dirty strings replacement.
 
 This package is a little outdated, please use rkhunter or similar for
 better results.
@@ -40,16 +40,16 @@ better results.
 %description -l pl
 Chkrootkit to zestaw narzêdzi do lokalnego sprawdzania oznak u¿ycia
 rootkitów.
- - chkrootkit: skrypt pow³oki sprawdzaj±cy binarne pliki systemowe na
-   obecno¶æ modyfikacji typowych dla rootkitów (je¶li nie mo¿na zaufaæ
-   rpm -Va)
- - ifpromisc: sprawdza czy interfejs sieciowy jest w trybie promiscuous
-   (gdy nie mo¿na zaufaæ netstat)
- - chklastlog: sprawdza czy logi nie by³y kasowane
- - chkwtmp: sprawdza kasowanie wtmpx
- - check_wtmpx: sprawdza kasowanie w wtmpx deletions (tylko Solaris)
- - chkproc: szuka oznak trojanów LKM (modu³y j±dra)
- - strings: szybko i brzydko napisany zamiennik programu strings.
+- chkrootkit: skrypt pow³oki sprawdzaj±cy binarne pliki systemowe na
+  obecno¶æ modyfikacji typowych dla rootkitów (je¶li nie mo¿na zaufaæ
+  rpm -Va)
+- ifpromisc: sprawdza czy interfejs sieciowy jest w trybie promiscuous
+  (gdy nie mo¿na zaufaæ netstat)
+- chklastlog: sprawdza czy logi nie by³y kasowane
+- chkwtmp: sprawdza kasowanie wtmpx
+- check_wtmpx: sprawdza kasowanie w wtmpx deletions (tylko Solaris)
+- chkproc: szuka oznak trojanów LKM (modu³y j±dra)
+- strings: szybko i brzydko napisany zamiennik programu strings.
 
 Pakiet ten jest przestarza³y, lepiej u¿ywaæ rkhunter lub podobnego.
 

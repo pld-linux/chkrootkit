@@ -1,8 +1,8 @@
 Summary:	chkrootkit - locally checks for signs of a rootkit
 Summary(pl):	chkrootkit - narzêdzie do lokalnego szukania oznak rootkitów
 Name:		chkrootkit
-Version:	0.35
-Release:	3
+Version:	0.36
+Release:	1
 License:	Copyrighted
 Group:		Applications/Networking
 Source0:	ftp://sunsite.icm.edu.pl/pub/unix/security/chkrootkit/%{name}-%{version}.tar.gz
@@ -44,7 +44,7 @@ rootkitów.
  - strings: szybko i brzydko napisany zamiennik programu strings.
 
 %prep
-%setup -q
+%setup -q -n %{name}-pre-%{version}
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
@@ -68,14 +68,12 @@ install chkrootkit $RPM_BUILD_ROOT/%{_bindir}
 install %{SOURCE1}	$RPM_BUILD_ROOT/etc/cron.weekly/
 install %{SOURCE2}	$RPM_BUILD_ROOT/etc/sysconfig/chkrootkit
 
-gzip -9nf COPYRIGHT README README.chklastlog README.chkwtmp
-
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc *.gz
+%doc COPYRIGHT README README.chklastlog README.chkwtmp
 %attr(755,root,root) %{_bindir}/*
 %attr(750,root,root) /etc/cron.weekly/chkrootkit-check
 %attr(640,root,root) %config(noreplace) %verify(not mtime size md5) /etc/sysconfig/chkrootkit

@@ -2,7 +2,7 @@ Summary:	chkrootkit - locally checks for signs of a rootkit
 Summary(pl):	chkrootkit - narzÍdzie do lokalnego szukania oznak rootkitÛw
 Name:		chkrootkit
 Version:	0.35
-Release:	2
+Release:	3
 License:	Copyrighted
 Group:		Applications/Networking
 Group(cs):	Aplikace/SÌªovÈ
@@ -20,6 +20,8 @@ Group(ru):	“…Ãœ÷≈Œ…—/Û≈‘≈◊Ÿ≈
 Group(sl):	Programi/Omreæni
 Group(sv):	Till‰mpningar/N‰tverk
 Source0:	ftp://sunsite.icm.edu.pl/pub/unix/security/chkrootkit/%{name}-%{version}.tar.gz
+Source1:	%{name}-check
+Source2:	%{name}.sysconfig
 Patch0:		%{name}-CC.patch
 Patch1:		%{name}-nostrip.patch
 Patch2:		%{name}-names.patch
@@ -68,13 +70,16 @@ export CC
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT%{_bindir}
+install -d $RPM_BUILD_ROOT{%{_bindir},/etc/{sysconfig,cron.weekly}}
 
 for x in check_wtmpx chklastlog chkproc chkwtmp ifpromisc strings; do
     install $x $RPM_BUILD_ROOT/%{_bindir}/%{name}-$x
 done
 
 install chkrootkit $RPM_BUILD_ROOT/%{_bindir}
+
+install %{SOURCE1}	$RPM_BUILD_ROOT/etc/cron.weekly/
+install %{SOURCE2}	$RPM_BUILD_ROOT/etc/sysconfig/chkrootkit
 
 gzip -9nf COPYRIGHT README README.chklastlog README.chkwtmp
 
@@ -85,3 +90,5 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc *.gz
 %attr(755,root,root) %{_bindir}/*
+%attr(750,root,root) /etc/cron.weekly/chkrootkit-check
+%attr(640,root,root) %config(noreplace) %verify(not mtime size md5) /etc/sysconfig/chkrootkit

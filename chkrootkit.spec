@@ -1,12 +1,12 @@
 Summary:	chkrootkit - locally checks for signs of a rootkit
 Summary(pl):	chkrootkit - narzêdzie do lokalnego szukania oznak rootkitów
 Name:		chkrootkit
-Version:	0.44
+Version:	0.45
 Release:	1
 License:	AMS (BSD like; look at COPYRIGHT)
 Group:		Applications/Networking
-Source0: 	ftp://ftp.pangeia.com.br/pub/seg/pac/chkrootkit-0.44.tar.gz
-# Source0-md5:	8f6dbb3204c24e9b71490142cb2953ee
+Source0: 	ftp://ftp.pangeia.com.br/pub/seg/pac/%{name}-%{version}.tar.gz
+# Source0-md5:	57493e24ca81750a200d8bcb4049e858
 Source1:	%{name}-check
 Source2:	%{name}.sysconfig
 Patch0:		%{name}-CC.patch
@@ -14,7 +14,7 @@ Patch1:		%{name}-nostrip.patch
 Patch2:		%{name}-names.patch
 Patch3:		%{name}-wtmp.patch
 Patch4:		%{name}-usebash.patch
-Patch5:		http://www.rootshell.be/~unspawn/packaging/%{name}-0.42-ip.patch
+Patch5:		%{name}-utmpx.patch
 # Patch5-md5: 0dfeda71b081eaa8c316eca1f81b21f0
 URL:		http://www.chkrootkit.org/
 BuildRequires:	glibc-static
@@ -60,7 +60,7 @@ Pakiet ten jest przestarza³y, lepiej u¿ywaæ rkhunter lub podobnego.
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
-#%patch5 -p0
+%patch5 -p1
 
 %build
 CC="%{__cc}"
@@ -71,7 +71,7 @@ export CC
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_bindir},/etc/{sysconfig,cron.weekly}}
 
-for x in check_wtmpx chkdirs chklastlog chkproc chkwtmp ifpromisc strings-static; do
+for x in check_wtmpx chkdirs chklastlog chkproc chkwtmp ifpromisc strings-static chkutmp; do
 	install $x $RPM_BUILD_ROOT%{_bindir}/%{name}-$x
 done
 

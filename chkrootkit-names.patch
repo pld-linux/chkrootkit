@@ -1,7 +1,6 @@
-diff -Nur chkrootkit-0.44.orig/chkrootkit chkrootkit-0.44/chkrootkit
---- chkrootkit-0.44.orig/chkrootkit	2004-09-01 13:27:28.000000000 +0000
-+++ chkrootkit-0.44/chkrootkit	2004-09-01 16:50:34.000000000 +0000
-@@ -149,20 +149,20 @@
+--- chkrootkit-0.45/chkrootkit~	2005-02-22 13:57:31.000000000 +0100
++++ chkrootkit-0.45/chkrootkit	2005-02-23 16:06:28.882194672 +0100
+@@ -149,23 +149,23 @@
      fi
  
      if [ "${EXPERT}" = "t" ]; then
@@ -20,6 +19,21 @@ diff -Nur chkrootkit-0.44.orig/chkrootkit chkrootkit-0.44/chkrootkit
      fi
  }
  
+ chkutmp() {
+-    if [ ! -x ./chkutmp ]; then
+-      echo "not tested: can't exec ./chkutmp"
++    if [ ! -x /usr/bin/chkrootkit-chkutmp ]; then
++      echo "not tested: can't exec /usr/bin/chkrootkit-chkutmp"
+       return ${NOT_TESTED}
+     fi
+-    if ./chkutmp
++    if /usr/bin/chkrootkit-chkutmp
+     then
+       if [ "${QUIET}" != "t" ]; then echo "chkutmp: nothing deleted"; fi
+     fi
+@@ -173,8 +173,8 @@
+ }
+ 
  z2 () {
 -    if [ ! -x ./chklastlog ]; then
 -      echo "not tested: can't exec ./chklastlog"
@@ -28,7 +42,7 @@ diff -Nur chkrootkit-0.44.orig/chkrootkit chkrootkit-0.44/chkrootkit
        return ${NOT_TESTED}
      fi
  
-@@ -176,32 +176,32 @@
+@@ -187,32 +187,32 @@
      fi
  
      if [ "${EXPERT}" = "t" ]; then
@@ -40,7 +54,7 @@ diff -Nur chkrootkit-0.44.orig/chkrootkit chkrootkit-0.44/chkrootkit
 -    if ./chklastlog -f ${WTMP} -l ${LASTLOG}
 +    if /usr/bin/chkrootkit-chklastlog -f ${WTMP} -l ${LASTLOG}
      then
-       if [ "${QUIET}" != "t" ]; then echo "nothing deleted"; fi
+       if [ "${QUIET}" != "t" ]; then echo "chklastlog: nothing deleted"; fi
      fi
  }
  
@@ -68,8 +82,8 @@ diff -Nur chkrootkit-0.44.orig/chkrootkit chkrootkit-0.44/chkrootkit
 +             if /usr/bin/chkrootkit-check_wtmpx
                  then
                  if [ "${QUIET}" != "t" ]; then \
-                    echo "nothing deleted in /var/adm/wtmpx"; fi
-@@ -212,12 +212,12 @@
+                    echo "check_wtmpx: nothing deleted in /var/adm/wtmpx"; fi
+@@ -223,12 +223,12 @@
         WTMP=`loc wtmp wtmp "${ROOTDIR}var/log ${ROOTDIR}var/adm"`
  
         if [ "${EXPERT}" = "t" ]; then
@@ -82,20 +96,20 @@ diff -Nur chkrootkit-0.44.orig/chkrootkit chkrootkit-0.44/chkrootkit
 -    if ./chkwtmp -f ${WTMP}
 +    if /usr/bin/chkrootkit-chkwtmp -f ${WTMP}
      then
-       if [ "${QUIET}" != "t" ]; then echo "nothing deleted"; fi
+       if [ "${QUIET}" != "t" ]; then echo "chkwtmp: nothing deleted"; fi
      fi
-@@ -256,8 +256,8 @@
+@@ -267,8 +267,8 @@
      prog=""
      if [  \( "${SYSTEM}" = "Linux"  -o \( "${SYSTEM}" = "FreeBSD" -a \
         `echo ${V} | ${awk} '{ if ($1 > 4.3) print 1; else print 0 }'` -eq 1 \) \) -a "${ROOTDIR}" = "/" ]; then
 -      [ ! -x ./chkproc ] && prog="./chkproc"
 -      [ ! -x ./chkdirs ] && prog="$prog ./chkdirs"
-+      [ ! -x /usr/bin/chkproc ] && prog="/usr/bin/chkrootkit-chkproc"
-+      [ ! -x /usr/bin/chkdirs ] && prog="$prog /usr/bin/chkrootkit-chkdirs"
++      [ ! -x /usr/bin/chkrootkit-chkproc ] && prog="/usr/bin/chkrootkit-chkproc"
++      [ ! -x /usr/bin/chkrootkit-chkdirs ] && prog="$prog /usr/bin/chkrootkit-chkdirs"
        if [ "$prog" != "" ]; then
  #        echo "not tested: can't exec $prog"
          return ${NOT_TESTED}
-@@ -269,7 +269,7 @@
+@@ -280,7 +280,7 @@
           PV=`$ps -V 2>/dev/null| $cut -d " " -f 3 |$awk -F . '{ print $1 "." $2 $3 }' | ${awk} '{ if ($0 > 3.19) print 2; else print 1 }'`
           [ "$PV" = "" ] &&  PV=1
           [ "${SYSTEM}" = "SunOS" ] && PV=0
@@ -104,16 +118,16 @@ diff -Nur chkrootkit-0.44.orig/chkrootkit chkrootkit-0.44/chkrootkit
           return 5
        fi
  
-@@ -295,7 +295,7 @@
+@@ -306,7 +306,7 @@
        if [ "${DEBUG}" = "t" ]; then
-            ${echo} "*** $PV ***"
+            ${echo} "*** PV=$PV ***"
        fi
 -      if ./chkproc -p ${PV}
 +      if /usr/bin/chkrootkit-chkproc -p ${PV}
        then
-            if [ "${QUIET}" != "t" ]; then echo "nothing detected"; fi
+            if [ "${QUIET}" != "t" ]; then echo "chkproc: nothing detected"; fi
        else
-@@ -1534,18 +1534,18 @@
+@@ -1582,18 +1582,18 @@
  
     if [ "${SYSTEM}" = "Linux" ]
     then

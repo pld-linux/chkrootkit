@@ -1,0 +1,11 @@
+--- chkrootkit-0.45/chkutmp.c~	2005-02-22 00:10:19.000000000 +0100
++++ chkrootkit-0.45/chkutmp.c	2005-02-23 16:58:58.898319432 +0100
+@@ -50,7 +49,7 @@
+ #define PS_CMD 0
+ #else
+ #define PS_CMD 1
+-#define UTMP "/var/run/utmp"
++#define UTMP "/var/run/utmpx"
+ #endif
+ 
+ struct ps_line {

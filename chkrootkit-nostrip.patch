@@ -1,0 +1,37 @@
+diff -Nru chkrootkit-0.35/Makefile chkrootkit-0.35-new/Makefile
+--- chkrootkit-0.35/Makefile	Fri Jan 18 18:06:09 2002
++++ chkrootkit-0.35-new/Makefile	Tue Feb 12 22:55:46 2002
+@@ -29,27 +29,27 @@
+ 
+ chklastlog:   chklastlog.c
+ 	${CC} ${CFLAGS} -o $@ chklastlog.c
+-	@strip $@
++
+ 
+ chkwtmp:   chkwtmp.c
+ 	${CC} ${CFLAGS} -o $@ chkwtmp.c
+-	@strip $@
++
+ 
+ ifpromisc:   ifpromisc.c
+ 	${CC} ${CFLAGS} ${LDFLAGS} -o $@ ifpromisc.c
+-	@strip $@
++
+ 
+ chkproc:   chkproc.c
+ 	${CC} ${LDFLAGS} -o $@ chkproc.c
+-	@strip $@
++
+ 
+ check_wtmpx:   check_wtmpx.c
+ 	${CC} ${LDFLAGS} -o $@ check_wtmpx.c
+-	@strip $@
++
+ 
+ strings:   strings.c
+ 	${CC} ${STATIC} ${LDFLAGS} -o $@ strings.c
+-	@strip $@
++
+ 
+ clean:
+ 	rm -f ${OBJS} core chklastlog chkwtmp ifpromisc chkproc check_wtmpx strings

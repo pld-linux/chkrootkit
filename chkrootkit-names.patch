@@ -1,7 +1,7 @@
-diff -Nur chkrootkit-0.39a.orig/chkrootkit chkrootkit-0.39a/chkrootkit
---- chkrootkit-0.39a.orig/chkrootkit	Thu Jan 30 23:45:57 2003
-+++ chkrootkit-0.39a/chkrootkit	Sat Feb  8 16:49:10 2003
-@@ -130,22 +130,22 @@
+diff -burN chkrootkit-0.41-orig/chkrootkit chkrootkit-0.41/chkrootkit
+--- chkrootkit-0.41-orig/chkrootkit	Sat Jun 21 04:09:09 2003
++++ chkrootkit-0.41/chkrootkit	Tue Jul 22 12:17:07 2003
+@@ -150,22 +150,22 @@
         return ${NOT_TESTED}
      fi
  
@@ -18,8 +18,8 @@ diff -Nur chkrootkit-0.39a.orig/chkrootkit chkrootkit-0.39a/chkrootkit
          return 5
      fi
      echo
--    ./ifpromisc
-+    /usr/bin/chkrootkit-ifpromisc
+-    [ "${QUIET}" != "t" ] && ./ifpromisc || ./ifpromisc -q
++    [ "${QUIET}" != "t" ] && /usr/bin/chkrootkit-ifpromisc || /usr/bin/chkrootkit-ifpromisc -q
  }
  
  z2 () {
@@ -30,7 +30,7 @@ diff -Nur chkrootkit-0.39a.orig/chkrootkit chkrootkit-0.39a/chkrootkit
        return ${NOT_TESTED}
      fi
  
-@@ -153,31 +153,31 @@
+@@ -173,31 +173,31 @@
      LASTLOG=`loc lastlog lastlog "${ROOTDIR}var/log ${ROOTDIR}var/adm"`
  
      if [ "${EXPERT}" = "t" ]; then
@@ -70,7 +70,7 @@ diff -Nur chkrootkit-0.39a.orig/chkrootkit chkrootkit-0.39a/chkrootkit
               then
               if [ "${QUIET}" != "t" ]; then \
                  echo "nothing deleted in /var/adm/wtmpx"; fi
-@@ -187,12 +187,12 @@
+@@ -207,12 +207,12 @@
         WTMP=`loc wtmp wtmp "${ROOTDIR}var/log ${ROOTDIR}var/adm"`
  
         if [ "${EXPERT}" = "t" ]; then
@@ -85,9 +85,9 @@ diff -Nur chkrootkit-0.39a.orig/chkrootkit chkrootkit-0.39a/chkrootkit
      then
        if [ "${QUIET}" != "t" ]; then echo "nothing deleted"; fi
      fi
-@@ -231,8 +231,8 @@
+@@ -251,8 +251,8 @@
      prog=""
-     if [ \( "${SYSTEM}" = "Linux"  -o \( "${SYSTEM}" = "FreeBSD" -a \
+     if [  \( "${SYSTEM}" = "Linux"  -o \( "${SYSTEM}" = "FreeBSD" -a \
         ${V} -gt 43 \) \) -a "${ROOTDIR}" = "/" ]; then
 -      [ ! -x ./chkproc ] && prog="./chkproc"
 -      [ ! -x ./chkdirs ] && prog="$prog ./chkdirs"
@@ -96,7 +96,7 @@ diff -Nur chkrootkit-0.39a.orig/chkrootkit chkrootkit-0.39a/chkrootkit
        if [ "$prog" != "" ]; then
  #        echo "not tested: can't exec $prog"
          return ${NOT_TESTED}
-@@ -241,7 +241,7 @@
+@@ -261,7 +261,7 @@
        if [ "${EXPERT}" = "t" ]; then
           [ -r /proc/ksyms ] &&  ${egrep} -i "adore|sebek" < /proc/ksyms 2>/dev/null
           [ -d /proc/knark ] &&  ${ls} -la /proc/knark 2> /dev/null
@@ -105,7 +105,7 @@ diff -Nur chkrootkit-0.39a.orig/chkrootkit chkrootkit-0.39a/chkrootkit
            return 5
        fi
  
-@@ -262,7 +262,7 @@
+@@ -282,7 +282,7 @@
           echo "Warning: Knark LKM installed"
        fi
  
@@ -114,7 +114,7 @@ diff -Nur chkrootkit-0.39a.orig/chkrootkit chkrootkit-0.39a/chkrootkit
        then
             if [ "${QUIET}" != "t" ]; then echo "nothing detected"; fi
        else
-@@ -1350,18 +1350,18 @@
+@@ -1443,18 +1443,18 @@
  
     if [ "${SYSTEM}" = "Linux" ]
     then

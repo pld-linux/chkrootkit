@@ -7,6 +7,7 @@ Release:	%{_subver}.1
 License:	AMS (BSD like; look at COPYRIGHT)
 Group:		Applications/Networking
 Source0:	ftp://sunsite.icm.edu.pl/pub/unix/security/chkrootkit/%{name}-%{version}%{_subver}.tar.gz
+# Source0-md5:	95c49aae601d402dac063f157de8fb58
 Source1:	%{name}-check
 Source2:	%{name}.sysconfig
 Patch0:		%{name}-CC.patch
@@ -15,8 +16,8 @@ Patch2:		%{name}-names.patch
 Patch3:		%{name}-wtmp.patch
 URL:		http://www.chkrootkit.org/
 BuildRequires:	glibc-static
-BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Requires:	binutils
+BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
 Chkrootkit is a toolkit to locally check for signs of a rootkit.

@@ -1,7 +1,7 @@
 Summary:	chkrootkit - locally checks for signs of a rootkit
 Summary(pl):	chkrootkit - narzêdzie do lokalnego szukania oznak rootkitów
 Name:		chkrootkit
-Version:	0.37
+Version:	0.38
 Release:	1
 License:	AMS (BSD like; look at COPYRIGHT)
 Group:		Applications/Networking
@@ -59,7 +59,7 @@ export CC
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_bindir},/etc/{sysconfig,cron.weekly}}
 
-for x in check_wtmpx chklastlog chkproc chkwtmp ifpromisc strings; do
+for x in check_wtmpx chkdirs chklastlog chkproc chkwtmp ifpromisc strings; do
 	install $x $RPM_BUILD_ROOT/%{_bindir}/%{name}-$x
 done
 

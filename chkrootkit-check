@@ -1,0 +1,14 @@
+#!/bin/sh
+
+# Get service config
+[ -f /etc/sysconfig/aide ] && . /etc/sysconfig/aide
+
+DATA=`date`
+SYSTEM=`hostname`
+
+/usr/bin/chkrootkit | /bin/egrep -v '(not (infected|found|promisc)|nothing (found|detected|deleted)|no suspect files|ROOTDIR is)' > /var/tmp/$$
+LIN=`grep -c . /var/tmp/$$`
+if [ "$LIN" -gt "1" ]; then
+	mail -s "CHKROOTKIT $SYSTEM $DATA" $CHKROOTKIT_MAILTO < /var/tmp/$$
+fi
+rm -f /var/tmp/$$

@@ -1,12 +1,12 @@
 Summary:	chkrootkit - locally checks for signs of a rootkit
 Summary(pl):	chkrootkit - narzêdzie do lokalnego szukania oznak rootkitów
 Name:		chkrootkit
-Version:	0.45
+Version:	0.46
 Release:	1
 License:	AMS (BSD like; look at COPYRIGHT)
 Group:		Applications/Networking
 Source0: 	ftp://ftp.pangeia.com.br/pub/seg/pac/%{name}-%{version}.tar.gz
-# Source0-md5:	57493e24ca81750a200d8bcb4049e858
+# Source0-md5:	03bee04ab54623ade29385f1d84ce742
 Source1:	%{name}-check
 Source2:	%{name}.sysconfig
 Patch0:		%{name}-CC.patch

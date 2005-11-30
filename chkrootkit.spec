@@ -1,12 +1,14 @@
+# TODO
+# - move programs to sbindir?
 Summary:	chkrootkit - locally checks for signs of a rootkit
 Summary(pl):	chkrootkit - narzêdzie do lokalnego szukania oznak rootkitów
 Name:		chkrootkit
-Version:	0.46
+Version:	0.46a
 Release:	1
 License:	AMS (BSD like; look at COPYRIGHT)
 Group:		Applications/Networking
 Source0: 	ftp://ftp.pangeia.com.br/pub/seg/pac/%{name}-%{version}.tar.gz
-# Source0-md5:	03bee04ab54623ade29385f1d84ce742
+# Source0-md5:	b73fb9e365d2edcd031d65b16e965a18
 Source1:	%{name}-check
 Source2:	%{name}.sysconfig
 Patch0:		%{name}-CC.patch
@@ -20,6 +22,7 @@ URL:		http://www.chkrootkit.org/
 BuildRequires:	glibc-static
 Requires:	binutils
 Requires:	bash
+Requires:	mktemp
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description

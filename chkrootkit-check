@@ -3,15 +3,16 @@
 # Get service config
 [ -f /etc/sysconfig/chkrootkit ] && . /etc/sysconfig/chkrootkit
 
-DATA=`date`
+DATE=`date`
 SYSTEM=`hostname`
 
-cd /usr/bin/
-echo -n "Generated with: " > /var/tmp/$$
-/usr/bin/chkrootkit -V 2>> /var/tmp/$$
-/usr/bin/chkrootkit 2>&1 | /bin/egrep -v '(not (infected|found|promisc)|nothing (found|detected|deleted)|no suspect files|ROOTDIR is)' >> /var/tmp/$$
-LIN=`grep -c . /var/tmp/$$`
-if [ "$LIN" -gt "1" ]; then
-	mail -s "CHKROOTKIT $SYSTEM $DATA" $CHKROOTKIT_MAILTO < /var/tmp/$$
+cd /usr/bin
+t=`mktemp -d ${TMPDIR:-/tmp}/chkrootkitXXXXXX` || exit 1
+echo -n "Generated with: " > $t
+/usr/bin/chkrootkit -V 2>> $t
+/usr/bin/chkrootkit 2>&1 | /bin/egrep -v '(not (infected|found|promisc)|nothing (found|detected|deleted)|no suspect files|ROOTDIR is)' >> $t
+L=$(wc -l $t)
+if [ "${L% *}" -gt 1 ]; then
+	mail -s "CHKROOTKIT $SYSTEM $DATE" $CHKROOTKIT_MAILTO < $t
 fi
-rm -f /var/tmp/$$
+rm -f $t

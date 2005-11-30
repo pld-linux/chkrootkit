@@ -7,7 +7,7 @@ DATE=`date`
 SYSTEM=`hostname`
 
 cd /usr/bin
-t=`mktemp -d ${TMPDIR:-/tmp}/chkrootkitXXXXXX` || exit 1
+t=`mktemp ${TMPDIR:-/tmp}/chkrootkitXXXXXX` || exit 1
 echo -n "Generated with: " > $t
 /usr/bin/chkrootkit -V 2>> $t
 /usr/bin/chkrootkit 2>&1 | /bin/egrep -v '(not (infected|found|promisc)|nothing (found|detected|deleted)|no suspect files|ROOTDIR is)' >> $t

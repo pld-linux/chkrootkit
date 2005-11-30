@@ -1,5 +1,4 @@
-# Customized setings for chkrootkit
+# Customized settings for chkrootkit
 
 # Define who should get mail with chkrootkit report
 CHKROOTKIT_MAILTO=root
-

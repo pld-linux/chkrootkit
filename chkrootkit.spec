@@ -7,7 +7,7 @@ Version:	0.46a
 Release:	1
 License:	AMS (BSD like; look at COPYRIGHT)
 Group:		Applications/Networking
-Source0: 	ftp://ftp.pangeia.com.br/pub/seg/pac/%{name}-%{version}.tar.gz
+Source0:	ftp://ftp.pangeia.com.br/pub/seg/pac/%{name}-%{version}.tar.gz
 # Source0-md5:	b73fb9e365d2edcd031d65b16e965a18
 Source1:	%{name}-check
 Source2:	%{name}.sysconfig
@@ -20,8 +20,8 @@ Patch5:		%{name}-utmpx.patch
 # Patch5-md5: 0dfeda71b081eaa8c316eca1f81b21f0
 URL:		http://www.chkrootkit.org/
 BuildRequires:	glibc-static
-Requires:	binutils
 Requires:	bash
+Requires:	binutils
 Requires:	mktemp
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -90,5 +90,5 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc COPYRIGHT README README.chklastlog README.chkwtmp
 %attr(750,root,root) /etc/cron.weekly/chkrootkit-check
-%attr(640,root,root) %config(noreplace) %verify(not mtime size md5) /etc/sysconfig/chkrootkit
+%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/chkrootkit
 %attr(755,root,root) %{_bindir}/*

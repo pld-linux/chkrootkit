@@ -1,7 +1,7 @@
 # TODO
 # - move programs to sbindir?
 Summary:	chkrootkit - locally checks for signs of a rootkit
-Summary(pl.UTF-8):   chkrootkit - narzędzie do lokalnego szukania oznak rootkitów
+Summary(pl.UTF-8):	chkrootkit - narzędzie do lokalnego szukania oznak rootkitów
 Name:		chkrootkit
 Version:	0.47
 Release:	1

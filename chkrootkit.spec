@@ -1,7 +1,7 @@
 # TODO
 # - move programs to sbindir?
 Summary:	chkrootkit - locally checks for signs of a rootkit
-Summary(pl):	chkrootkit - narzêdzie do lokalnego szukania oznak rootkitów
+Summary(pl.UTF-8):   chkrootkit - narzÄ™dzie do lokalnego szukania oznak rootkitÃ³w
 Name:		chkrootkit
 Version:	0.47
 Release:	1
@@ -40,21 +40,21 @@ Chkrootkit is a toolkit to locally check for signs of a rootkit.
 This package is a little outdated, please use rkhunter or similar for
 better results.
 
-%description -l pl
-Chkrootkit to zestaw narzêdzi do lokalnego sprawdzania oznak u¿ycia
-rootkitów.
-- chkrootkit: skrypt pow³oki sprawdzaj±cy binarne pliki systemowe na
-  obecno¶æ modyfikacji typowych dla rootkitów (je¶li nie mo¿na zaufaæ
+%description -l pl.UTF-8
+Chkrootkit to zestaw narzÄ™dzi do lokalnego sprawdzania oznak uÅ¼ycia
+rootkitÃ³w.
+- chkrootkit: skrypt powÅ‚oki sprawdzajÄ…cy binarne pliki systemowe na
+  obecnoÅ›Ä‡ modyfikacji typowych dla rootkitÃ³w (jeÅ›li nie moÅ¼na zaufaÄ‡
   rpm -Va)
 - ifpromisc: sprawdza czy interfejs sieciowy jest w trybie promiscuous
-  (gdy nie mo¿na zaufaæ netstat)
-- chklastlog: sprawdza czy logi nie by³y kasowane
+  (gdy nie moÅ¼na zaufaÄ‡ netstat)
+- chklastlog: sprawdza czy logi nie byÅ‚y kasowane
 - chkwtmp: sprawdza kasowanie wtmpx
 - check_wtmpx: sprawdza kasowanie w wtmpx deletions (tylko Solaris)
-- chkproc: szuka oznak trojanów LKM (modu³y j±dra)
+- chkproc: szuka oznak trojanÃ³w LKM (moduÅ‚y jÄ…dra)
 - strings: szybko i brzydko napisany zamiennik programu strings.
 
-Pakiet ten jest przestarza³y, lepiej u¿ywaæ rkhunter lub podobnego.
+Pakiet ten jest przestarzaÅ‚y, lepiej uÅ¼ywaÄ‡ rkhunter lub podobnego.
 
 %prep
 %setup -q

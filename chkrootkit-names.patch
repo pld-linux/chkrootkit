@@ -98,17 +98,17 @@
      then
        if [ "${QUIET}" != "t" ]; then echo "chkwtmp: nothing deleted"; fi
      fi
-@@ -267,8 +267,8 @@
+@@ -275,8 +275,8 @@
      prog=""
      if [  \( "${SYSTEM}" = "Linux"  -o \( "${SYSTEM}" = "FreeBSD" -a \
-        `echo ${V} | ${awk} '{ if ($1 > 4.3) print 1; else print 0 }'` -eq 1 \) \) -a "${ROOTDIR}" = "/" ]; then
--      [ ! -x ./chkproc ] && prog="./chkproc"
--      [ ! -x ./chkdirs ] && prog="$prog ./chkdirs"
-+      [ ! -x /usr/bin/chkrootkit-chkproc ] && prog="/usr/bin/chkrootkit-chkproc"
-+      [ ! -x /usr/bin/chkrootkit-chkdirs ] && prog="$prog /usr/bin/chkrootkit-chkdirs"
-       if [ "$prog" != "" ]; then
- #        echo "not tested: can't exec $prog"
-         return ${NOT_TESTED}
+        `echo ${V} | ${awk} '{ if ($1 > 4.3 || $1 < 6.0) print 1; else print 0 }'` -eq 1 \) \) -a "${ROOTDIR}" = "/" ]; then
+-      [  -x ./chkproc -a "`find /proc | wc -l`" -gt 1 ] && prog="./chkproc"
+-      [  -x ./chkdirs ] && prog="$prog ./chkdirs"
++      [  -x /usr/bin/chkrootkit-chkproc -a "`find /proc | wc -l`" -gt 1 ] && prog="/usr/bin/chkrootkit-chkproc"
++      [  -x /usr/bin/chkrootkit-chkdirs ] && prog="$prog /usr/bin/chkrootkit-chkdirs"
+       if [ "$prog" = "" ]; then
+          echo "not tested: can't exec $prog"
+          return ${NOT_TESTED}
 @@ -280,7 +280,7 @@
           PV=`$ps -V 2>/dev/null| $cut -d " " -f 3 |$awk -F . '{ print $1 "." $2 $3 }' | ${awk} '{ if ($0 > 3.19) print 2; else print 1 }'`
           [ "$PV" = "" ] &&  PV=1
@@ -118,15 +118,15 @@
           return 5
        fi
  
-@@ -306,7 +306,7 @@
+@@ -315,7 +315,7 @@
        if [ "${DEBUG}" = "t" ]; then
             ${echo} "*** PV=$PV ***"
        fi
--      if ./chkproc -p ${PV}
-+      if /usr/bin/chkrootkit-chkproc -p ${PV}
-       then
-            if [ "${QUIET}" != "t" ]; then echo "chkproc: nothing detected"; fi
+-      if ./chkproc -p ${PV}; then
++      if /usr/bin/chkrootkit-chkproc -p ${PV}; then
+          if [ "${QUIET}" != "t" ]; then echo "chkproc: nothing detected"; fi
        else
+          echo "chkproc: Warning: Possible LKM Trojan installed"
 @@ -1582,18 +1582,18 @@
  
     if [ "${SYSTEM}" = "Linux" ]

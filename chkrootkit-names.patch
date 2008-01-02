@@ -1,6 +1,7 @@
---- chkrootkit-0.45/chkrootkit~	2005-02-22 13:57:31.000000000 +0100
-+++ chkrootkit-0.45/chkrootkit	2005-02-23 16:06:28.882194672 +0100
-@@ -149,23 +149,23 @@
+diff -Nur chkrootkit-0.48.orig/chkrootkit chkrootkit-0.48/chkrootkit
+--- chkrootkit-0.48.orig/chkrootkit	2007-12-17 19:54:42.000000000 +0100
++++ chkrootkit-0.48/chkrootkit	2008-01-02 15:48:19.000000000 +0100
+@@ -158,23 +158,23 @@
      fi
  
      if [ "${EXPERT}" = "t" ]; then
@@ -31,7 +32,7 @@
      then
        if [ "${QUIET}" != "t" ]; then echo "chkutmp: nothing deleted"; fi
      fi
-@@ -173,8 +173,8 @@
+@@ -182,8 +182,8 @@
  }
  
  z2 () {
@@ -42,7 +43,7 @@
        return ${NOT_TESTED}
      fi
  
-@@ -187,32 +187,32 @@
+@@ -196,32 +196,32 @@
      fi
  
      if [ "${EXPERT}" = "t" ]; then
@@ -83,7 +84,7 @@
                  then
                  if [ "${QUIET}" != "t" ]; then \
                     echo "check_wtmpx: nothing deleted in /var/adm/wtmpx"; fi
-@@ -223,12 +223,12 @@
+@@ -232,12 +232,12 @@
         WTMP=`loc wtmp wtmp "${ROOTDIR}var/log ${ROOTDIR}var/adm"`
  
         if [ "${EXPERT}" = "t" ]; then
@@ -109,9 +110,9 @@
        if [ "$prog" = "" ]; then
           echo "not tested: can't exec $prog"
           return ${NOT_TESTED}
-@@ -280,7 +280,7 @@
-          PV=`$ps -V 2>/dev/null| $cut -d " " -f 3 |$awk -F . '{ print $1 "." $2 $3 }' | ${awk} '{ if ($0 > 3.19) print 2; else print 1 }'`
-          [ "$PV" = "" ] &&  PV=1
+@@ -288,7 +288,7 @@
+          PV=`$ps -V 2>/dev/null| $cut -d " " -f 3 |${awk} -F . '{ print $1 "." $2 $3 }' | ${awk} '{ if ($0 > 3.19) print 3; else if ($0 < 2.015) print 1; else print 2 }'`
+          [ "$PV" = "" ] &&  PV=2
           [ "${SYSTEM}" = "SunOS" ] && PV=0
 -         expertmode_output "./chkproc -v -v -p $PV"
 +         expertmode_output "/usr/bin/chkrootkit-chkproc -v -v -p $PV"
@@ -127,7 +128,16 @@
           if [ "${QUIET}" != "t" ]; then echo "chkproc: nothing detected"; fi
        else
           echo "chkproc: Warning: Possible LKM Trojan installed"
-@@ -1582,18 +1582,18 @@
+@@ -324,7 +324,7 @@
+       for i in /usr/share /usr/bin /usr/sbin /lib; do
+          [ -d $i ] && dirs="$dirs $i"
+       done
+-      if ./chkdirs $dirs;  then
++      if /usr/bin/chkrootkit-chkdirs $dirs;  then
+          if [ "${QUIET}" != "t" ]; then echo "chkdirs: nothing detected"; fi
+       else
+ 	    echo "chkdirs: Warning: Possible LKM Trojan installed"
+@@ -1690,18 +1690,18 @@
  
     if [ "${SYSTEM}" = "Linux" ]
     then

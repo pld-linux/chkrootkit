@@ -17,7 +17,6 @@ Patch2:		%{name}-names.patch
 Patch3:		%{name}-wtmp.patch
 Patch4:		%{name}-usebash.patch
 Patch5:		%{name}-utmpx.patch
-# Patch5-md5: 0dfeda71b081eaa8c316eca1f81b21f0
 URL:		http://www.chkrootkit.org/
 BuildRequires:	glibc-static
 Requires:	bash

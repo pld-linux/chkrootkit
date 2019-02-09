@@ -3,10 +3,10 @@ diff -Nru chkrootkit-0.37/Makefile chkrootkit-0.37-new/Makefile
 +++ chkrootkit-0.37-new/Makefile	Tue Feb 12 22:43:10 2002
 @@ -2,7 +2,7 @@
  # Makefile for chkrootkit
- # (C) 1997-2002 Nelson Murilo, Pangeia Informatica, AMS Foundation and others.
+ # (C) 1997-2007 Nelson Murilo, Pangeia Informatica, AMS Foundation and others.
  #
  
--CC       = gcc
+-CC       = cc
 +
  CFLAGS	 = -DHAVE_LASTLOG_H
  STATIC   = -static

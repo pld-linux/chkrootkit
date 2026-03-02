@@ -1,9 +1,9 @@
-diff -Nur chkrootkit-0.41.orig/chkrootkit chkrootkit-0.41/chkrootkit
---- chkrootkit-0.41.orig/chkrootkit	Sun Aug 24 19:33:41 2003
-+++ chkrootkit-0.41/chkrootkit	Sun Aug 24 19:33:47 2003
+diff -urNp -x '*.orig' chkrootkit-0.52.org/chkrootkit chkrootkit-0.52/chkrootkit
+--- chkrootkit-0.52.org/chkrootkit	2026-03-03 00:13:28.455134967 +0100
++++ chkrootkit-0.52/chkrootkit	2026-03-03 00:13:28.518722998 +0100
 @@ -1,4 +1,4 @@
 -#! /bin/sh
 +#! /bin/bash
  # -*- Shell-script -*-
  
- # $Id: chkrootkit, v 0.41 2003/06/20
+ # $Id: chkrootkit, v 0.52 2017/03/13

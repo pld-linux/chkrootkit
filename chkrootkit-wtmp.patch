@@ -1,7 +1,7 @@
-diff -Nur chkrootkit-0.39a.orig/chkrootkit chkrootkit-0.39a/chkrootkit
---- chkrootkit-0.39a.orig/chkrootkit	Thu Jan 30 23:45:57 2003
-+++ chkrootkit-0.39a/chkrootkit	Sat Feb  8 16:51:03 2003
-@@ -149,7 +149,7 @@
+diff -urNp -x '*.orig' chkrootkit-0.52.org/chkrootkit chkrootkit-0.52/chkrootkit
+--- chkrootkit-0.52.org/chkrootkit	2026-03-03 00:13:08.029230175 +0100
++++ chkrootkit-0.52/chkrootkit	2026-03-03 00:13:08.095991729 +0100
+@@ -217,7 +217,7 @@ z2 () {
        return ${NOT_TESTED}
      fi
  
@@ -9,13 +9,13 @@ diff -Nur chkrootkit-0.39a.orig/chkrootkit chkrootkit-0.39a/chkrootkit
 +    WTMP=`loc wtmpx wtmpx "${ROOTDIR}var/log ${ROOTDIR}var/adm"`
      LASTLOG=`loc lastlog lastlog "${ROOTDIR}var/log ${ROOTDIR}var/adm"`
  
-     if [ "${EXPERT}" = "t" ]; then
-@@ -184,7 +184,7 @@
-           fi
+     if [ ! -f $WTMP -a ! -f $LASTLOG ]; then
+@@ -259,7 +259,7 @@ wted () {
+ 	  fi
         fi
     else
 -       WTMP=`loc wtmp wtmp "${ROOTDIR}var/log ${ROOTDIR}var/adm"`
 +       WTMP=`loc wtmpx wtmpx "${ROOTDIR}var/log ${ROOTDIR}var/adm"`
  
         if [ "${EXPERT}" = "t" ]; then
-           expertmode_output "./chkwtmp -f ${WTMP}"
+           expertmode_output "/usr/bin/chkrootkit-chkwtmp -f ${WTMP}"

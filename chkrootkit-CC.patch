@@ -1,8 +1,7 @@
-diff -Nru chkrootkit-0.37/Makefile chkrootkit-0.37-new/Makefile
---- chkrootkit-0.37/Makefile	Fri Jan 18 18:06:09 2002
-+++ chkrootkit-0.37-new/Makefile	Tue Feb 12 22:43:10 2002
-@@ -2,7 +2,7 @@
- # Makefile for chkrootkit
+diff -urNp -x '*.orig' chkrootkit-0.52.org/Makefile chkrootkit-0.52/Makefile
+--- chkrootkit-0.52.org/Makefile	2017-01-04 23:54:00.000000000 +0100
++++ chkrootkit-0.52/Makefile	2026-03-03 00:12:24.918792950 +0100
+@@ -3,7 +3,7 @@
  # (C) 1997-2007 Nelson Murilo, Pangeia Informatica, AMS Foundation and others.
  #
  
